@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Anthill.Common.Data.Contracts" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fuhrpark.Enums\Fuhrpark.Enums.csproj" />
+    <ProjectReference Include="..\Fuhrpark.Models\Fuhrpark.Models.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,21 @@
+﻿################################################################################
+# Данный GITIGNORE-файл был автоматически создан Microsoft(R) Visual Studio.
+################################################################################
+
+/Fuhrpark.Data/bin
+/Fuhrpark.Data/obj
+/Fuhrpark.Data.Contracts/bin
+/Fuhrpark.Data.Contracts/obj
+/Fuhrpark.Enums/bin
+/Fuhrpark.Enums/obj
+/Fuhrpark.Host/bin
+/Fuhrpark.Host/obj
+/Fuhrpark.Models/bin
+/Fuhrpark.Models/obj
+/Fuhrpark.Services/bin
+/Fuhrpark.Services/obj
+/Fuhrpark.Services.Contracts/bin
+/Fuhrpark.Services.Contracts/obj
+/.vs/Fuhrpark/v15
+/.vs/Fuhrpark/v16
+/Fuhrpark.Host/Properties/launchSettings.json
