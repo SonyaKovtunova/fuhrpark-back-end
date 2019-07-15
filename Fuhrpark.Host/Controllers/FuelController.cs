@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Fuhrpark.Host.Mappers;
-using Fuhrpark.Host.Models;
 using Fuhrpark.Services.Contracts.Dtos;
+using Fuhrpark.Services.Contracts.Dtos.Common;
 using Fuhrpark.Services.Contracts.Exceptions;
 using Fuhrpark.Services.Contracts.Services;
 using log4net;
@@ -23,14 +22,12 @@ namespace Fuhrpark.Host.Controllers
     [Authorize(Policy = "Bearer")]
     public class FuelController : ControllerBase
     {
-        private readonly IUnityContainer _container;
         private readonly ILog _log;
 
         private readonly ICommonService<FuelDto> _fuelService;
 
-        public FuelController(IUnityContainer container, ILog log, ICommonService<FuelDto> fuelService)
+        public FuelController(ILog log, ICommonService<FuelDto> fuelService)
         {
-            _container = container;
             _log = log;
 
             _fuelService = fuelService;
@@ -40,85 +37,67 @@ namespace Fuhrpark.Host.Controllers
         [Route("list")]
         public async Task<ActionResult> GetFuels()
         {
-            var fuelDtos = await _fuelService.GetAll();
-            var fuelModels = _container.Resolve<ICommonModelMapper<FuelDto, FuelModel>>().MapCollectionToModel(fuelDtos);
-
-            return Ok(fuelModels);
+            var fuels = await _fuelService.GetAll();
+            return Ok(fuels);
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task<ActionResult> AddFuel([FromBody]FuelModel model)
+        public async Task<ActionResult> AddFuel([FromBody]CommonAddDto fuel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var fuelDto = _container.Resolve<ICommonModelMapper<FuelDto, FuelModel>>().MapFromModel(model);
-
             try
             {
-                await _fuelService.Add(fuelDto);
+                await _fuelService.Add(fuel);
+                return Ok();
             }
-            catch (AddingException)
+            catch (AddingException aex)
             {
+                _log.Error(aex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "Fuel with same name exists.");
             }
-
-            return Ok();
         }
 
         [HttpPost]
         [Route("update")]
-        public async Task<ActionResult> UpdateFuel([FromBody]FuelModel model)
+        public async Task<ActionResult> UpdateFuel([FromBody]CommonUpdateDto fuel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var fuelDto = _container.Resolve<ICommonModelMapper<FuelDto, FuelModel>>().MapFromModel(model);
-
             try
             {
-                await _fuelService.Update(fuelDto);
+                await _fuelService.Update(fuel);
+                return Ok();
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This fuel doesn't exist.");
             }
-            catch (UpdatingException)
+            catch (UpdatingException uex)
             {
+                _log.Error(uex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "Fuel with same name exists.");
             }
 
-            return Ok();
         }
 
         [HttpPost]
         [Route("remove")]
-        public async Task<ActionResult> RemoveFuel([FromBody]CommonRemoveModel model)
+        public async Task<ActionResult> RemoveFuel([FromBody]int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             try
             {
-                await _fuelService.Remove(model.Id, Enums.RemovalType.Fuel);
+                await _fuelService.Remove(id, Enums.RemovalType.Fuel);
+                return Ok();
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This fuel doesn't exist.");
             }
-            catch (RemovingException)
+            catch (RemovingException rex)
             {
+                _log.Error(rex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This fuel is used in the description of the other car.");
             }
-
-            return Ok();
         }
     }
 }

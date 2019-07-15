@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Fuhrpark.Host.Mappers;
-using Fuhrpark.Host.Models;
 using Fuhrpark.Services.Contracts.Dtos;
+using Fuhrpark.Services.Contracts.Dtos.Common;
 using Fuhrpark.Services.Contracts.Exceptions;
 using Fuhrpark.Services.Contracts.Services;
 using log4net;
@@ -23,14 +22,12 @@ namespace Fuhrpark.Host.Controllers
     [Authorize(Policy = "Bearer")]
     public class TypController : ControllerBase
     {
-        private readonly IUnityContainer _container;
         private readonly ILog _log;
 
         private readonly ICommonService<TypDto> _typService;
 
-        public TypController(IUnityContainer container, ILog log, ICommonService<TypDto> typService)
+        public TypController(ILog log, ICommonService<TypDto> typService)
         {
-            _container = container;
             _log = log;
 
             _typService = typService;
@@ -40,85 +37,66 @@ namespace Fuhrpark.Host.Controllers
         [Route("list")]
         public async Task<ActionResult> GetTyps()
         {
-            var typDtos = await _typService.GetAll();
-            var typModels = _container.Resolve<ICommonModelMapper<TypDto, TypModel>>().MapCollectionToModel(typDtos);
-
-            return Ok(typModels);
+            var typs = await _typService.GetAll();
+            return Ok(typs);
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task<ActionResult> AddTyp([FromBody]TypModel model)
+        public async Task<ActionResult> AddTyp([FromBody]CommonAddDto typ)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var typDto = _container.Resolve<ICommonModelMapper<TypDto, TypModel>>().MapFromModel(model);
-
             try
             {
-                await _typService.Add(typDto);
+                await _typService.Add(typ);
+                return Ok();
             }
-            catch (AddingException)
+            catch (AddingException aex)
             {
+                _log.Error(aex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "Typ with same name exists.");
             }
-
-            return Ok();
         }
 
         [HttpPost]
         [Route("update")]
-        public async Task<ActionResult> UpdateManufacturer([FromBody]TypModel model)
+        public async Task<ActionResult> UpdateTyp([FromBody]CommonUpdateDto typ)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var typDto = _container.Resolve<ICommonModelMapper<TypDto, TypModel>>().MapFromModel(model);
-
             try
             {
-                await _typService.Update(typDto);
+                await _typService.Update(typ);
+                return Ok();
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This typ doesn't exist.");
             }
-            catch (UpdatingException)
+            catch (UpdatingException uex)
             {
+                _log.Error(uex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "Typ with same name exists.");
             }
-
-            return Ok();
         }
 
         [HttpPost]
         [Route("remove")]
-        public async Task<ActionResult> RemoveManufacturer([FromBody]CommonRemoveModel model)
+        public async Task<ActionResult> RemoveTyp([FromBody]int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             try
             {
-                await _typService.Remove(model.Id, Enums.RemovalType.Typ);
+                await _typService.Remove(id, Enums.RemovalType.Typ);
+                return Ok();
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This typ doesn't exist.");
             }
-            catch (RemovingException)
+            catch (RemovingException rex)
             {
+                _log.Error(rex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This typ is used in the description of the other car.");
             }
-
-            return Ok();
         }
     }
 }

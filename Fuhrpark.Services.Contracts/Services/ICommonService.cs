@@ -1,5 +1,5 @@
 ﻿using Fuhrpark.Enums;
-using Fuhrpark.Services.Contracts.Dtos;
+using Fuhrpark.Services.Contracts.Dtos.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,9 +11,9 @@ namespace Fuhrpark.Services.Contracts.Services
     {
         Task<IEnumerable<Dto>> GetAll();
 
-        Task Add(Dto dto);
+        Task Add(CommonAddDto dto);
 
-        Task Update(Dto dto);
+        Task Update(CommonUpdateDto dto);
 
         Task Remove(int id, RemovalType removalType);
     }

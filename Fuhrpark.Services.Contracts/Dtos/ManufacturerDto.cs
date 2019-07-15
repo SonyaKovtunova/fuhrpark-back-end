@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fuhrpark.Services.Contracts.Dtos.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

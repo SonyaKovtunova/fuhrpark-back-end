@@ -18,6 +18,7 @@ namespace Fuhrpark.Data.Repositories
         public async Task Add(TEntity entity)
         {
             await Context.Set<TEntity>().AddAsync(entity);
+            await Context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
@@ -35,14 +36,16 @@ namespace Fuhrpark.Data.Repositories
             return await Context.Set<TEntity>().FirstOrDefaultAsync(x => x.Name.Equals(name));
         }
 
-        public void Remove(TEntity entity)
+        public async Task Remove(TEntity entity)
         {
             Context.Set<TEntity>().Remove(entity);
+            await Context.SaveChangesAsync();
         }
 
-        public void Update(TEntity entity)
+        public async Task Update(TEntity entity)
         {
             Context.Entry<TEntity>(entity).State = EntityState.Modified;
+            await Context.SaveChangesAsync();
         }
     }
 }

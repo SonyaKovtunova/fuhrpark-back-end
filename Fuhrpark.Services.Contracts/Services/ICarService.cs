@@ -14,8 +14,7 @@ namespace Fuhrpark.Services.Contracts.Services
 
         Task UpdateCar(CarDto car);
 
-        Task<CarRemoveInfoDto> RemoveCar(int id, bool isCheck, bool manufacturerIsDelete, bool typIsDelete, bool fuelIsDelete,
-            bool engineOilIsDelete, bool gearOilIsDelete, bool userIsDelete);
+        Task<CarRemoveInfoDto> RemoveCar(RemoveCarSettingsDto removeCarSettings);
 
         Task<CarDto> GetCarById(int id);
     }

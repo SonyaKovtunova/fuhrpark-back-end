@@ -6,8 +6,9 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Fuhrpark.Host.Infrastructure;
-using Fuhrpark.Host.Mappers;
 using Fuhrpark.Host.Models;
+using Fuhrpark.Services.Contracts.Dtos;
+using Fuhrpark.Services.Contracts.Exceptions;
 using Fuhrpark.Services.Contracts.Services;
 using log4net;
 using Microsoft.AspNetCore.Authorization;
@@ -24,14 +25,12 @@ namespace Fuhrpark.Host.Controllers
     [EnableCors("CorsPolicy")]
     public class AccountController : ControllerBase
     {
-        private readonly IUnityContainer _container;
         private readonly ILog _log;
 
         private readonly IAccountService _accountService;
 
-        public AccountController(IUnityContainer container, ILog log, IAccountService accountService)
+        public AccountController(ILog log, IAccountService accountService)
         {
-            _container = container;
             _log = log;
 
             _accountService = accountService;
@@ -46,35 +45,40 @@ namespace Fuhrpark.Host.Controllers
                 return BadRequest();
             }
 
-            var identity = await GetIdentity(model.Email, model.Password);
-
-            if (identity == null)
-            {
-                return Unauthorized("Invalid email or password.");
-            }
-
-            var now = DateTime.UtcNow;
-
-            var newToken = GenerateToken(identity.Claims);
-            var refreshToken = GenerateRefreshToken();
-
             try
             {
-                await _accountService.SaveRefreshToken(model.Email, refreshToken);
-            }
-            catch (ArgumentException)
-            {
-                return Unauthorized("Invalid email or password.");
-            }
-           
-            var response = new
-            {
-                access_token = newToken,
-                refresh_token = refreshToken,
-                expires_date = now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME))
-            };
+                var identity = await GetIdentity(model.Email, model.Password);
 
-            return Ok(response);
+                var now = DateTime.UtcNow;
+
+                var newToken = GenerateToken(identity.Claims);
+                var refreshToken = GenerateRefreshToken();
+
+                await _accountService.SaveRefreshToken(model.Email, refreshToken);
+
+                var response = new
+                {
+                    access_token = newToken,
+                    refresh_token = refreshToken,
+                    expires_date = now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME))
+                };
+
+                return Ok(response);
+            }
+            catch (ObjectNotFoundException onfex)
+            {
+                _log.Error(onfex);
+            }
+            catch(UnauthorizedAccessException uaex)
+            {
+                _log.Error(uaex);
+            }
+            catch(ArgumentException aex)
+            {
+                _log.Error(aex);
+            }
+
+            return Unauthorized("Invalid email or password.");
         }
 
         [HttpPost]
@@ -98,6 +102,7 @@ namespace Fuhrpark.Host.Controllers
                 await _accountService.SaveRefreshToken(email, newRefreshToken);
 
                 var now = DateTime.UtcNow;
+
                 var response = new
                 {
                     access_token = newJwtToken,
@@ -122,23 +127,20 @@ namespace Fuhrpark.Host.Controllers
                 return BadRequest();
             }
 
-            var userDto = _container.Resolve<IUserRegisterMapper>().MapFromModel(model);
+            var userDto = new AppUserDto
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                Password = model.Password,
+                Mobile = model.Mobile,
+            };
 
             try
             {
                 var newUser = await _accountService.Register(userDto);
 
-                if (newUser == null)
-                {
-                    throw new ArgumentException("Invalid email or password.");
-                }
-
                 var identity = await GetIdentity(model.Email, model.Password);
-
-                if (identity == null)
-                {
-                    throw new ArgumentException("Invalid email or password.");
-                }
 
                 var now = DateTime.UtcNow;
 
@@ -158,8 +160,19 @@ namespace Fuhrpark.Host.Controllers
             }
             catch (ArgumentException aex)
             {
+                _log.Error(aex);
                 return Unauthorized(aex.Message);
             }
+            catch(ObjectNotFoundException onfex)
+            {
+                _log.Error(onfex);
+            }
+            catch(UnauthorizedAccessException uaex)
+            {
+                _log.Error(uaex);
+            }
+
+            return Unauthorized("Invalid email or password.");
         }
 
         [HttpGet]
@@ -239,22 +252,17 @@ namespace Fuhrpark.Host.Controllers
         {
             var user = await _accountService.Login(email, password);
 
-            if (user != null)
-            {
-                var claims = new List<Claim>
+            var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, email),
                     new Claim("UserId", user.Id.ToString())
                 };
 
-                ClaimsIdentity claimsIdentity =
-                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
+            ClaimsIdentity claimsIdentity =
+            new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
 
-                return claimsIdentity;
-            }
-
-            return null;
+            return claimsIdentity;
         }
     }
 }

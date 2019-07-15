@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Fuhrpark.Host.Mappers;
-using Fuhrpark.Host.Models;
 using Fuhrpark.Services.Contracts.Dtos;
+using Fuhrpark.Services.Contracts.Dtos.Common;
 using Fuhrpark.Services.Contracts.Exceptions;
 using Fuhrpark.Services.Contracts.Services;
 using log4net;
@@ -23,14 +22,12 @@ namespace Fuhrpark.Host.Controllers
     [Authorize(Policy = "Bearer")]
     public class UserController : ControllerBase
     {
-        private readonly IUnityContainer _container;
         private readonly ILog _log;
 
         private readonly ICommonService<UserDto> _service;
 
-        public UserController(IUnityContainer container, ILog log, ICommonService<UserDto> service)
+        public UserController(ILog log, ICommonService<UserDto> service)
         {
-            _container = container;
             _log = log;
 
             _service = service;
@@ -40,85 +37,66 @@ namespace Fuhrpark.Host.Controllers
         [Route("list")]
         public async Task<ActionResult> GetUsers()
         {
-            var userDtos = await _service.GetAll();
-            var userModels = _container.Resolve<ICommonModelMapper<UserDto, UserModel>>().MapCollectionToModel(userDtos);
-
-            return Ok(userModels);
+            var users = await _service.GetAll();
+            return Ok(users);
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task<ActionResult> AddUser([FromBody]UserModel model)
+        public async Task<ActionResult> AddUser([FromBody]CommonAddDto user)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var userDto = _container.Resolve<ICommonModelMapper<UserDto, UserModel>>().MapFromModel(model);
-
             try
             {
-                await _service.Add(userDto);
+                await _service.Add(user);
+                return Ok();
             }
-            catch (AddingException)
+            catch (AddingException aex)
             {
+                _log.Error(aex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "User with same name exists.");
             }
-
-            return Ok();
         }
 
         [HttpPost]
         [Route("update")]
-        public async Task<ActionResult> UpdateUser([FromBody]UserModel model)
+        public async Task<ActionResult> UpdateUser([FromBody]CommonUpdateDto user)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var userDto = _container.Resolve<ICommonModelMapper<UserDto, UserModel>>().MapFromModel(model);
-
             try
             {
-                await _service.Update(userDto);
+                await _service.Update(user);
+                return Ok();
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This user doesn't exist.");
             }
-            catch (UpdatingException)
+            catch (UpdatingException uex)
             {
+                _log.Error(uex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "User with same name exists.");
             }
-
-            return Ok();
         }
 
         [HttpPost]
         [Route("remove")]
-        public async Task<ActionResult> RemoveUser([FromBody]CommonRemoveModel model)
+        public async Task<ActionResult> RemoveUser([FromBody]int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             try
             {
-                await _service.Remove(model.Id, Enums.RemovalType.User);
+                await _service.Remove(id, Enums.RemovalType.User);
+                return Ok();
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This user doesn't exist.");
             }
-            catch (RemovingException)
+            catch (RemovingException rex)
             {
+                _log.Error(rex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This user is used in the description of the other car.");
             }
-
-            return Ok();
         }
     }
 }

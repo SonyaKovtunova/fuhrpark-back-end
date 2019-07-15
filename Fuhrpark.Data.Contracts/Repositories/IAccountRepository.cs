@@ -14,5 +14,7 @@ namespace Fuhrpark.Data.Contracts.Repositories
         Task<AppUser> GetByEmail(string email);
 
         Task Add(AppUser user);
+
+        Task SaveRefreshToken(AppUser user);
     }
 }

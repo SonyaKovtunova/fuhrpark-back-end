@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Fuhrpark.Host.Mappers;
-using Fuhrpark.Host.Models;
+using Fuhrpark.Services.Contracts.Dtos;
 using Fuhrpark.Services.Contracts.Exceptions;
 using Fuhrpark.Services.Contracts.Services;
 using log4net;
@@ -22,14 +21,12 @@ namespace Fuhrpark.Host.Controllers
     [Authorize(Policy = "Bearer")]
     public class CarController : ControllerBase
     {
-        private readonly IUnityContainer _container;
         private readonly ILog _log;
 
         private readonly ICarService _carService;
 
-        public CarController(IUnityContainer container, ILog log, ICarService carService)
+        public CarController(ILog log, ICarService carService)
         {
-            _container = container;
             _log = log;
 
             _carService = carService;
@@ -37,14 +34,10 @@ namespace Fuhrpark.Host.Controllers
 
         [HttpPost]
         [Route("list")]
-        public async Task<ActionResult> GetCars([FromBody]CarSearchModel model)
+        public async Task<ActionResult> GetCars([FromBody]CarSearchDto search)
         {
-            var searchDto = _container.Resolve<ICarSearchModelMapper>().MapFromModel(model);
-
-            var carDtos = await _carService.GetCars(searchDto);
-            var carModels = _container.Resolve<ICarModelMapper>().MapCollectionToModel(carDtos);
-
-            return Ok(carModels);
+            var cars = await _carService.GetCars(search);
+            return Ok(cars);
         }
 
         [HttpGet]
@@ -53,87 +46,53 @@ namespace Fuhrpark.Host.Controllers
         {
             try
             {
-                var carDto = await _carService.GetCarById(id);
-                var carModel = _container.Resolve<ICarDetailModelMapper>().MapToModel(carDto);
-
-                return Ok(carModel);
+                var car = await _carService.GetCarById(id);
+                return Ok(car);
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This car doesn't exist.");
             }
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task<ActionResult> AddCar([FromBody]CarAddModel model)
+        public async Task<ActionResult> AddCar([FromBody]CarDto car)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var carDto = _container.Resolve<ICarAddModelMapper>().MapFromModel(model);
-
-            await _carService.AddCar(carDto);
-            
+            await _carService.AddCar(car);
             return Ok();
         }
 
         [HttpPost]
         [Route("update")]
-        public async Task<ActionResult> UpdateCar([FromBody]CarUpdateModel model)
+        public async Task<ActionResult> UpdateCar([FromBody]CarDto car)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var carDto = _container.Resolve<ICarUpdateModelMapper>().MapFromModel(model);
-
             try
             {
-                await _carService.UpdateCar(carDto);
+                await _carService.UpdateCar(car);
+                return Ok();
             }
             catch (ObjectNotFoundException)
             {
                 return StatusCode((int)HttpStatusCode.Forbidden, "This car doesn't exist.");
             }
-            
-            return Ok();
         }
 
         [HttpPost]
         [Route("delete")]
-        public async Task<ActionResult> RemoveCar([FromBody]RemoveCarRequestModel model)
+        public async Task<ActionResult> RemoveCar([FromBody]RemoveCarSettingsDto removeSettings)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             try
             {
-                var carRemoveInfoDto = await _carService.RemoveCar(model.CarId, model.IsCheck, model.ManufacturerIsDelete, model.TypIsDelete, model.FuelIsDelete,
-                                model.EngineOilIsDelete, model.GearOilIsDelete, model.UserIsDelete);
-
-                var carRemoveInfoModel = new RemoveCarResponseModel
-                {
-                    WithSameManufacturer = carRemoveInfoDto.WithSameManufacturer,
-                    WithSameTyp = carRemoveInfoDto.WithSameTyp,
-                    WithSameFuel = carRemoveInfoDto.WithSameFuel,
-                    WithSameEngineOil = carRemoveInfoDto.WithSameEngineOil,
-                    WithSameGearOil = carRemoveInfoDto.WithSameGearOil,
-                    WithSameUser = carRemoveInfoDto.WithSameUser
-                };
-
-                return Ok(carRemoveInfoModel);
+                var carRemoveInfo = await _carService.RemoveCar(removeSettings);
+                return Ok(carRemoveInfo);
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This car doesn't exist.");
             }
-            
         }
     }
 }

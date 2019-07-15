@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Fuhrpark.Host.Mappers;
-using Fuhrpark.Host.Models;
 using Fuhrpark.Services.Contracts.Dtos;
+using Fuhrpark.Services.Contracts.Dtos.Common;
 using Fuhrpark.Services.Contracts.Exceptions;
 using Fuhrpark.Services.Contracts.Services;
 using log4net;
@@ -23,14 +22,12 @@ namespace Fuhrpark.Host.Controllers
     [Authorize(Policy = "Bearer")]
     public class ManufacturerController : ControllerBase
     {
-        private readonly IUnityContainer _container;
         private readonly ILog _log;
 
         private readonly ICommonService<ManufacturerDto> _manufacturerService;
 
-        public ManufacturerController(IUnityContainer container, ILog log, ICommonService<ManufacturerDto> manufacturerService)
+        public ManufacturerController(ILog log, ICommonService<ManufacturerDto> manufacturerService)
         {
-            _container = container;
             _log = log;
 
             _manufacturerService = manufacturerService;
@@ -40,85 +37,66 @@ namespace Fuhrpark.Host.Controllers
         [Route("list")]
         public async Task<ActionResult> GetManufacturers()
         {
-            var manufacturerDtos = await _manufacturerService.GetAll();
-            var manufacturerModels = _container.Resolve<ICommonModelMapper<ManufacturerDto, ManufacturerModel>>().MapCollectionToModel(manufacturerDtos);
-
-            return Ok(manufacturerModels);
+            var manufacturers = await _manufacturerService.GetAll();
+            return Ok(manufacturers);
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task<ActionResult> AddManufacturer([FromBody]ManufacturerModel model)
+        public async Task<ActionResult> AddManufacturer([FromBody]CommonAddDto manufacturer)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var manufacturerDto = _container.Resolve<ICommonModelMapper<ManufacturerDto, ManufacturerModel>>().MapFromModel(model);
-
             try
             {
-                await _manufacturerService.Add(manufacturerDto);
+                await _manufacturerService.Add(manufacturer);
+                return Ok();
             }
-            catch (AddingException)
+            catch (AddingException aex)
             {
+                _log.Error(aex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "Manufacturer with same name exists.");
             }
-            
-            return Ok();
         }
 
         [HttpPost]
         [Route("update")]
-        public async Task<ActionResult> UpdateManufacturer([FromBody]ManufacturerModel model)
+        public async Task<ActionResult> UpdateManufacturer([FromBody]CommonUpdateDto manufacturer)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var manufacturerDto = _container.Resolve<ICommonModelMapper<ManufacturerDto, ManufacturerModel>>().MapFromModel(model);
-
             try
             {
-                await _manufacturerService.Update(manufacturerDto);
+                await _manufacturerService.Update(manufacturer);
+                return Ok();
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This manufacturer doesn't exist.");
             }
-            catch (UpdatingException)
+            catch (UpdatingException uex)
             {
+                _log.Error(uex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "Manufacturer with same name exists.");
             }
-
-            return Ok();
         }
 
         [HttpPost]
         [Route("remove")]
-        public async Task<ActionResult> RemoveManufacturer([FromBody]CommonRemoveModel model)
+        public async Task<ActionResult> RemoveManufacturer([FromBody]int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             try
             {
-                await _manufacturerService.Remove(model.Id, Enums.RemovalType.Manufacturer);
+                await _manufacturerService.Remove(id, Enums.RemovalType.Manufacturer);
+                return Ok();
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This manufacturer doesn't exist.");
             }
-            catch (RemovingException)
+            catch (RemovingException rex)
             {
+                _log.Error(rex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This manufacturer is used in the description of the other car.");
             }
-
-            return Ok();
         }
     }
 }

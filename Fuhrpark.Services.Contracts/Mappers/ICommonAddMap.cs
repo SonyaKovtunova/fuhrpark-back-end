@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Fuhrpark.Services.Contracts.Mappers
 {
-    public interface ICommonMapper<TEntity, Dto> : IMapper<TEntity, Dto> where TEntity: CommonEntity where Dto: CommonDto
+    public interface ICommonAddMap<TEntity, TAddDto> : IMapper<TEntity, TAddDto> where TEntity : CommonEntity where TAddDto: CommonAddDto
     {
     }
 }

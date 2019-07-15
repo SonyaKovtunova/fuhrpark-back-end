@@ -6,6 +6,7 @@ using Fuhrpark.Data.Repositories;
 using Fuhrpark.Enums;
 using Fuhrpark.Models;
 using Fuhrpark.Services.Contracts.Dtos;
+using Fuhrpark.Services.Contracts.Dtos.Common;
 using Fuhrpark.Services.Contracts.Exceptions;
 using Fuhrpark.Services.Contracts.Mappers;
 using Fuhrpark.Services.Contracts.Services;
@@ -23,7 +24,7 @@ namespace Fuhrpark.Services.Services
         {
         }
 
-        public async Task Add(Dto dto)
+        public async Task Add(CommonAddDto dto)
         {
             var repository = DataContextManager.CreateRepository<ICommonRepository<TEntity>>();
 
@@ -34,10 +35,10 @@ namespace Fuhrpark.Services.Services
                 throw new AddingException();
             }
 
-            entity = MapperFactory.CreateMapper<ICommonMapper<TEntity, Dto>>().MapFromModel(dto);
+            entity = MapperFactory.CreateMapper<ICommonAddMap<TEntity, CommonAddDto>>().MapFromModel(dto);
+            entity.CreateDate = DateTime.Now;
 
             await repository.Add(entity);
-            await DataContextManager.SaveAsync();
         }
 
         public async Task<IEnumerable<Dto>> GetAll()
@@ -69,11 +70,10 @@ namespace Fuhrpark.Services.Services
                 throw new RemovingException();
             }
 
-            repository.Remove(entity);
-            await DataContextManager.SaveAsync();
+            await repository.Remove(entity);
         }
 
-        public async Task Update(Dto dto)
+        public async Task Update(CommonUpdateDto dto)
         {
             var repository = DataContextManager.CreateRepository<ICommonRepository<TEntity>>();
 
@@ -94,8 +94,7 @@ namespace Fuhrpark.Services.Services
             entity.Name = dto.Name;
             entity.UpdateDate = DateTime.Now;
 
-            repository.Update(entity);
-            await DataContextManager.SaveAsync();
+            await repository.Update(entity);
         }
     }
 }

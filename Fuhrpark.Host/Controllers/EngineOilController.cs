@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Fuhrpark.Host.Mappers;
-using Fuhrpark.Host.Models;
 using Fuhrpark.Services.Contracts.Dtos;
+using Fuhrpark.Services.Contracts.Dtos.Common;
 using Fuhrpark.Services.Contracts.Exceptions;
 using Fuhrpark.Services.Contracts.Services;
 using log4net;
@@ -23,14 +22,12 @@ namespace Fuhrpark.Host.Controllers
     [Authorize(Policy = "Bearer")]
     public class EngineOilController : ControllerBase
     {
-        private readonly IUnityContainer _container;
         private readonly ILog _log;
 
         private readonly ICommonService<EngineOilDto> _service;
 
-        public EngineOilController(IUnityContainer container, ILog log, ICommonService<EngineOilDto> service)
+        public EngineOilController(ILog log, ICommonService<EngineOilDto> service)
         {
-            _container = container;
             _log = log;
 
             _service = service;
@@ -40,85 +37,66 @@ namespace Fuhrpark.Host.Controllers
         [Route("list")]
         public async Task<ActionResult> GetEngineOils()
         {
-            var engineOilDtos = await _service.GetAll();
-            var engineOilModels = _container.Resolve<ICommonModelMapper<EngineOilDto, EngineOilModel>>().MapCollectionToModel(engineOilDtos);
-
-            return Ok(engineOilModels);
+            var engineOils = await _service.GetAll();
+            return Ok(engineOils);
         }
 
         [HttpPost]
         [Route("add")]
-        public async Task<ActionResult> AddEngineOil([FromBody]EngineOilModel model)
+        public async Task<ActionResult> AddEngineOil([FromBody]CommonAddDto engineOil)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var engineOilDto = _container.Resolve<ICommonModelMapper<EngineOilDto, EngineOilModel>>().MapFromModel(model);
-
             try
             {
-                await _service.Add(engineOilDto);
+                await _service.Add(engineOil);
+                return Ok();
             }
-            catch (AddingException)
+            catch (AddingException aex)
             {
+                _log.Error(aex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "Engine oil with same name exists.");
             }
-
-            return Ok();
         }
 
         [HttpPost]
         [Route("update")]
-        public async Task<ActionResult> UpdateEngineOil([FromBody]EngineOilModel model)
+        public async Task<ActionResult> UpdateEngineOil([FromBody]CommonUpdateDto engineOil)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var engineOilDto = _container.Resolve<ICommonModelMapper<EngineOilDto, EngineOilModel>>().MapFromModel(model);
-
             try
             {
-                await _service.Update(engineOilDto);
+                await _service.Update(engineOil);
+                return Ok();
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This engine oil doesn't exist.");
             }
-            catch (UpdatingException)
+            catch (UpdatingException uex)
             {
+                _log.Error(uex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "Engine oil with same name exists.");
             }
-
-            return Ok();
         }
 
         [HttpPost]
         [Route("remove")]
-        public async Task<ActionResult> RemoveEngineOil([FromBody]CommonRemoveModel model)
+        public async Task<ActionResult> RemoveEngineOil([FromBody]int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             try
             {
-                await _service.Remove(model.Id, Enums.RemovalType.EngineOil);
+                await _service.Remove(id, Enums.RemovalType.EngineOil);
+                return Ok();
             }
-            catch (ObjectNotFoundException)
+            catch (ObjectNotFoundException onfex)
             {
+                _log.Error(onfex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This engine oil doesn't exist.");
             }
-            catch (RemovingException)
+            catch (RemovingException rex)
             {
+                _log.Error(rex);
                 return StatusCode((int)HttpStatusCode.Forbidden, "This engine oil is used in the description of the other car.");
             }
-
-            return Ok();
         }
     }
 }

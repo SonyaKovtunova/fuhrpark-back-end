@@ -21,6 +21,8 @@ namespace Fuhrpark.Data.Repositories
         {
             await Context.Set<Car>()
                 .AddAsync(car);
+
+            await Context.SaveChangesAsync();
         }
 
         public async Task<Car> GetCarByEngineOilId(int engineOilId, int carId)
@@ -31,30 +33,15 @@ namespace Fuhrpark.Data.Repositories
 
         public async Task<Car> GetCarByEntityType(int id, RemovalType removalType)
         {
-            if (removalType == RemovalType.Manufacturer)
+            switch (removalType)
             {
-                return await Context.Set<Car>().FirstOrDefaultAsync(x => x.ManufacturerId == id);
-            }
-            else if (removalType == RemovalType.Typ)
-            {
-                return await Context.Set<Car>().FirstOrDefaultAsync(x => x.TypId == id);
-            }
-            else if (removalType == RemovalType.Fuel)
-            {
-                return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.FuelId == id);
-            }
-            else if (removalType == RemovalType.EngineOil)
-            {
-                return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.EngineOilId == id);
-            }
-            else if (removalType == RemovalType.GearOil)
-            {
-                return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.GearOilId == id);
-            }
-            else if (removalType == RemovalType.User)
-            {
-                return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarBusiness.UserId.HasValue && x.CarBusiness.UserId.Value == id);
-            }
+                case RemovalType.Manufacturer: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.ManufacturerId == id);
+                case RemovalType.Typ: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.TypId == id);
+                case RemovalType.Fuel: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.FuelId == id);
+                case RemovalType.EngineOil: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.EngineOilId == id);
+                case RemovalType.GearOil: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.GearOilId == id);
+                case RemovalType.User: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarBusiness.UserId.HasValue && x.CarBusiness.UserId.Value == id);
+            };
 
             return null;
         }
@@ -101,16 +88,18 @@ namespace Fuhrpark.Data.Repositories
                 .AsQueryable();
         }
 
-        public void RemoveCar(Car car)
+        public async Task RemoveCar(Car car)
         {
             Context.Set<Car>()
                 .Remove(car);
+
+            await Context.SaveChangesAsync();
         }
 
-        public void UpdateCar(Car car)
+        public async Task UpdateCar(Car car)
         {
-
             Context.Entry<Car>(car).State = EntityState.Modified;
+            await Context.SaveChangesAsync();
         }
     }
 }

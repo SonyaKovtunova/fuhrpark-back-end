@@ -9,14 +9,14 @@ using System.Text;
 
 namespace Fuhrpark.Services.Mappers
 {
-    public class CommonMapper<TEntity, Dto> : AbstractMapper<TEntity, Dto>, ICommonMapper<TEntity, Dto> where TEntity : CommonEntity where Dto : CommonDto
+    public class CommonAddMap<TEntity, TAddDto> : AbstractMapper<TEntity, TAddDto>, ICommonAddMap<TEntity, TAddDto> 
+        where TEntity : CommonEntity where TAddDto : CommonAddDto
     {
         protected override IMapper Configure()
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<TEntity, Dto>();
-                cfg.CreateMap<Dto, TEntity>();
+                cfg.CreateMap<TAddDto, TEntity>();
             });
 
 

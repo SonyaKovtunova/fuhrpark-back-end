@@ -15,9 +15,9 @@ namespace Fuhrpark.Data.Contracts.Repositories
 
         Task Add(TEntity entity);
 
-        void Remove(TEntity entity);
+        Task Remove(TEntity entity);
 
-        void Update(TEntity entity);
+        Task Update(TEntity entity);
 
         Task<TEntity> GetByName(string name);
     }

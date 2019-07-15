@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Fuhrpark.Host.Models
+namespace Fuhrpark.Services.Contracts.Dtos
 {
-    public class RemoveCarRequestModel
+    public class RemoveCarSettingsDto
     {
-        [Required]
         public int CarId { get; set; }
 
-        [Required]
         public bool IsCheck { get; set; }
 
         public bool ManufacturerIsDelete { get; set; }

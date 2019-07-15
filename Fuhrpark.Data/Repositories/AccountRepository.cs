@@ -17,12 +17,8 @@ namespace Fuhrpark.Data.Repositories
 
         public async Task Add(AppUser user)
         {
-            if (user == null)
-            {
-                throw new ArgumentException();
-            }
-
             await Context.Set<AppUser>().AddAsync(user);
+            await Context.SaveChangesAsync();
         }
 
         public async Task<AppUser> GetByEmail(string email)
@@ -33,6 +29,12 @@ namespace Fuhrpark.Data.Repositories
         public async Task<AppUser> GetById(int id)
         {
             return await Context.Set<AppUser>().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task SaveRefreshToken(AppUser user)
+        {
+            Context.Entry<AppUser>(user).State = EntityState.Modified;
+            await Context.SaveChangesAsync();
         }
     }
 }

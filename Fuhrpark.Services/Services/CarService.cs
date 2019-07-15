@@ -30,7 +30,6 @@ namespace Fuhrpark.Services.Services
             var car = MapperFactory.CreateMapper<ICarMapper>().MapFromModel(carDto);
 
             await carRepository.AddCar(car);
-            await DataContextManager.SaveAsync();
         }
 
         public async Task<CarDto> GetCarById(int id)
@@ -53,6 +52,25 @@ namespace Fuhrpark.Services.Services
 
             var cars = carRepository.GetCars();
 
+            cars = SearchCarsByGeneralSettings(searchDto, cars);
+
+            if (searchDto.CarSpec != null)
+            {
+                cars = SearchCarsBySpec(searchDto.CarSpec, cars);
+            }
+
+            if (searchDto.CarBusiness != null)
+            {
+                cars = SearchCarsByBusiness(searchDto.CarBusiness, cars);
+            }
+            
+            var foundCars = await cars.ToListAsync();
+
+            return MapperFactory.CreateMapper<ICarMapper>().MapCollectionToModel(foundCars);
+        }
+
+        private IQueryable<Car> SearchCarsByGeneralSettings(CarSearchDto searchDto, IQueryable<Car> cars)
+        {
             if (!String.IsNullOrEmpty(searchDto.ChassisNumber))
             {
                 cars = cars.Where(x => x.ChassisNumber.Contains(searchDto.ChassisNumber));
@@ -88,256 +106,222 @@ namespace Fuhrpark.Services.Services
                 cars = cars.Where(x => x.TypId == searchDto.TypId);
             }
 
-            if (searchDto.CarSpec != null)
-            {
-                if (searchDto.CarSpec.Catalyst.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.Catalyst == searchDto.CarSpec.Catalyst.Value);
-                }
-
-                if (!String.IsNullOrEmpty(searchDto.CarSpec.EngineCode))
-                {
-                    cars = cars.Where(x => x.CarSpec.EngineCode.Contains(searchDto.CarSpec.EngineCode));
-                }
-
-                if (searchDto.CarSpec.EngineOilId.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.EngineOilId == searchDto.CarSpec.EngineOilId.Value);
-                }
-
-                if (searchDto.CarSpec.FuelId.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.FuelId == searchDto.CarSpec.FuelId.Value);
-                }
-
-                if (searchDto.CarSpec.GearOilId.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.GearOilId == searchDto.CarSpec.GearOilId.Value);
-                }
-
-                if (searchDto.CarSpec.HybridDrive.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.HybridDrive == searchDto.CarSpec.HybridDrive.Value);
-                }
-
-                if (searchDto.CarSpec.MaxEngineDisplacement.HasValue && searchDto.CarSpec.MinEngineDisplacement.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.EngineDisplacement.HasValue 
-                            && searchDto.CarSpec.MinEngineDisplacement.Value <= x.CarSpec.EngineDisplacement.Value 
-                            && x.CarSpec.EngineDisplacement.Value <= searchDto.CarSpec.MaxEngineDisplacement.Value);
-                }
-                else if (searchDto.CarSpec.MaxEngineDisplacement.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.EngineDisplacement.HasValue
-                            && x.CarSpec.EngineDisplacement.Value <= searchDto.CarSpec.MaxEngineDisplacement.Value);
-                }
-                else if (searchDto.CarSpec.MinEngineDisplacement.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.EngineDisplacement.HasValue
-                            && searchDto.CarSpec.MinEngineDisplacement.Value <= x.CarSpec.EngineDisplacement.Value);
-                }
-
-                if (searchDto.CarSpec.MaxPerformance.HasValue && searchDto.CarSpec.MinPerformance.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.Performance.HasValue
-                            && searchDto.CarSpec.MinPerformance.Value <= x.CarSpec.Performance.Value
-                            && x.CarSpec.Performance.Value <= searchDto.CarSpec.MaxPerformance.Value);
-                }
-                else if (searchDto.CarSpec.MaxPerformance.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.Performance.HasValue
-                            && x.CarSpec.Performance.Value <= searchDto.CarSpec.MaxPerformance.Value);
-                }
-                else if (searchDto.CarSpec.MinPerformance.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.Performance.HasValue
-                            && searchDto.CarSpec.MinPerformance.Value <= x.CarSpec.Performance.Value);
-                }
-
-                if (searchDto.CarSpec.MaxSpeed.HasValue && searchDto.CarSpec.MinSpeed.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.MaxSpeed.HasValue
-                            && searchDto.CarSpec.MinSpeed.Value <= x.CarSpec.MaxSpeed.Value
-                            && x.CarSpec.MaxSpeed.Value <= searchDto.CarSpec.MaxSpeed.Value);
-                }
-                else if (searchDto.CarSpec.MaxSpeed.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.MaxSpeed.HasValue
-                            && x.CarSpec.MaxSpeed.Value <= searchDto.CarSpec.MaxSpeed.Value);
-                }
-                else if (searchDto.CarSpec.MinSpeed.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.MaxSpeed.HasValue
-                            && searchDto.CarSpec.MinSpeed.Value <= x.CarSpec.MaxSpeed.Value);
-                }
-
-                if (searchDto.CarSpec.MaxTotalWeight.HasValue && searchDto.CarSpec.MinTotalWeight.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.TotalWeight.HasValue
-                            && searchDto.CarSpec.MinTotalWeight.Value <= x.CarSpec.TotalWeight.Value
-                            && x.CarSpec.TotalWeight.Value <= searchDto.CarSpec.MaxTotalWeight.Value);
-                }
-                else if (searchDto.CarSpec.MaxTotalWeight.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.TotalWeight.HasValue
-                            && x.CarSpec.TotalWeight.Value <= searchDto.CarSpec.MaxTotalWeight.Value);
-                }
-                else if (searchDto.CarSpec.MinTotalWeight.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.TotalWeight.HasValue
-                            && searchDto.CarSpec.MinTotalWeight.Value <= x.CarSpec.TotalWeight.Value);
-                }
-
-                if (searchDto.CarSpec.ProductionStartDate.HasValue && searchDto.CarSpec.ProductionEndDate.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.ProductionDate.HasValue
-                                    && searchDto.CarSpec.ProductionStartDate.Value <= x.CarSpec.ProductionDate.Value
-                                    && x.CarSpec.ProductionDate.Value <= searchDto.CarSpec.ProductionEndDate.Value);
-                }
-                else if (searchDto.CarSpec.ProductionStartDate.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.ProductionDate.HasValue
-                                    && searchDto.CarSpec.ProductionStartDate.Value <= x.CarSpec.ProductionDate.Value);
-                }
-                else if (searchDto.CarSpec.ProductionEndDate.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.ProductionDate.HasValue
-                                    && x.CarSpec.ProductionDate.Value <= searchDto.CarSpec.ProductionEndDate.Value);
-                }
-
-                if (searchDto.CarSpec.RegistrationStartDate.HasValue && searchDto.CarSpec.RegistrationEndDate.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.RegistrationDate.HasValue
-                                    && searchDto.CarSpec.RegistrationStartDate.Value <= x.CarSpec.RegistrationDate.Value
-                                    && x.CarSpec.RegistrationDate.Value <= searchDto.CarSpec.RegistrationEndDate.Value);
-                }
-                else if (searchDto.CarSpec.RegistrationStartDate.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.RegistrationDate.HasValue
-                                    && searchDto.CarSpec.RegistrationStartDate.Value <= x.CarSpec.RegistrationDate.Value);
-                }
-                else if (searchDto.CarSpec.RegistrationEndDate.HasValue)
-                {
-                    cars = cars.Where(x => x.CarSpec.RegistrationDate.HasValue
-                                    && x.CarSpec.RegistrationDate.Value <= searchDto.CarSpec.RegistrationEndDate.Value);
-                }
-            }
-
-            if (searchDto.CarBusiness != null)
-            {
-                if (!String.IsNullOrEmpty(searchDto.CarBusiness.Location))
-                {
-                    cars = cars.Where(x => x.CarBusiness.Location.Contains(searchDto.CarBusiness.Location));
-                }
-
-                if (searchDto.CarBusiness.UserId.HasValue)
-                {
-                    cars = cars.Where(x => x.CarBusiness.UserId.HasValue
-                                        && x.CarBusiness.UserId.Value == searchDto.CarBusiness.UserId.Value);
-                }
-
-                if (searchDto.CarBusiness.CreateStartDate.HasValue && searchDto.CarBusiness.CreateEndDate.HasValue)
-                {
-                    cars = cars.Where(x => searchDto.CarBusiness.CreateStartDate.Value <= x.CarBusiness.CreateDate
-                                        && x.CarBusiness.CreateDate <= searchDto.CarBusiness.CreateEndDate.Value);
-                }
-                else if (searchDto.CarBusiness.CreateStartDate.HasValue)
-                {
-                    cars = cars.Where(x => searchDto.CarBusiness.CreateStartDate.Value <= x.CarBusiness.CreateDate);
-                }
-                else if (searchDto.CarBusiness.CreateEndDate.HasValue)
-                {
-                    cars = cars.Where(x => x.CarBusiness.CreateDate <= searchDto.CarBusiness.CreateEndDate.Value);
-                }
-
-                if (searchDto.CarBusiness.UpdateStartDate.HasValue && searchDto.CarBusiness.UpdateEndDate.HasValue)
-                {
-                    cars = cars.Where(x => x.CarBusiness.UpdateDate.HasValue
-                                        && searchDto.CarBusiness.UpdateStartDate.Value <= x.CarBusiness.UpdateDate.Value
-                                        && x.CarBusiness.UpdateDate.Value <= searchDto.CarBusiness.UpdateEndDate.Value);
-                }
-                else if (searchDto.CarBusiness.UpdateStartDate.HasValue)
-                {
-                    cars = cars.Where(x => x.CarBusiness.UpdateDate.HasValue
-                                        && searchDto.CarBusiness.UpdateStartDate.Value <= x.CarBusiness.UpdateDate.Value);
-                }
-                else if (searchDto.CarBusiness.UpdateEndDate.HasValue)
-                {
-                    cars = cars.Where(x => x.CarBusiness.UpdateDate.HasValue
-                                        && x.CarBusiness.UpdateDate.Value <= searchDto.CarBusiness.UpdateEndDate.Value);
-                }
-            }
-
-            var foundCars = await cars.ToListAsync();
-
-            return MapperFactory.CreateMapper<ICarMapper>().MapCollectionToModel(foundCars);
+            return cars;
         }
 
-        public async Task<CarRemoveInfoDto> RemoveCar(int id, bool isCheck, bool manufacturerIsDelete, bool typIsDelete, bool fuelIsDelete,
-            bool engineOilIsDelete, bool gearOilIsDelete, bool userIsDelete)
+        private IQueryable<Car> SearchCarsBySpec(CarSearchDto.CarSpecSearchDto carSpec, IQueryable<Car> cars)
+        {
+            if (carSpec.Catalyst.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.Catalyst == carSpec.Catalyst.Value);
+            }
+
+            if (!String.IsNullOrEmpty(carSpec.EngineCode))
+            {
+                cars = cars.Where(x => x.CarSpec.EngineCode.Contains(carSpec.EngineCode));
+            }
+
+            if (carSpec.EngineOilId.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.EngineOilId == carSpec.EngineOilId.Value);
+            }
+
+            if (carSpec.FuelId.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.FuelId == carSpec.FuelId.Value);
+            }
+
+            if (carSpec.GearOilId.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.GearOilId == carSpec.GearOilId.Value);
+            }
+
+            if (carSpec.HybridDrive.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.HybridDrive == carSpec.HybridDrive.Value);
+            }
+
+            if (carSpec.MaxEngineDisplacement.HasValue && carSpec.MinEngineDisplacement.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.EngineDisplacement.HasValue
+                        && carSpec.MinEngineDisplacement.Value <= x.CarSpec.EngineDisplacement.Value
+                        && x.CarSpec.EngineDisplacement.Value <= carSpec.MaxEngineDisplacement.Value);
+            }
+            else if (carSpec.MaxEngineDisplacement.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.EngineDisplacement.HasValue
+                        && x.CarSpec.EngineDisplacement.Value <= carSpec.MaxEngineDisplacement.Value);
+            }
+            else if (carSpec.MinEngineDisplacement.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.EngineDisplacement.HasValue
+                        && carSpec.MinEngineDisplacement.Value <= x.CarSpec.EngineDisplacement.Value);
+            }
+
+            if (carSpec.MaxPerformance.HasValue && carSpec.MinPerformance.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.Performance.HasValue
+                        && carSpec.MinPerformance.Value <= x.CarSpec.Performance.Value
+                        && x.CarSpec.Performance.Value <= carSpec.MaxPerformance.Value);
+            }
+            else if (carSpec.MaxPerformance.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.Performance.HasValue
+                        && x.CarSpec.Performance.Value <= carSpec.MaxPerformance.Value);
+            }
+            else if (carSpec.MinPerformance.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.Performance.HasValue
+                        && carSpec.MinPerformance.Value <= x.CarSpec.Performance.Value);
+            }
+
+            if (carSpec.MaxSpeed.HasValue && carSpec.MinSpeed.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.MaxSpeed.HasValue
+                        && carSpec.MinSpeed.Value <= x.CarSpec.MaxSpeed.Value
+                        && x.CarSpec.MaxSpeed.Value <= carSpec.MaxSpeed.Value);
+            }
+            else if (carSpec.MaxSpeed.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.MaxSpeed.HasValue
+                        && x.CarSpec.MaxSpeed.Value <= carSpec.MaxSpeed.Value);
+            }
+            else if (carSpec.MinSpeed.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.MaxSpeed.HasValue
+                        && carSpec.MinSpeed.Value <= x.CarSpec.MaxSpeed.Value);
+            }
+
+            if (carSpec.MaxTotalWeight.HasValue && carSpec.MinTotalWeight.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.TotalWeight.HasValue
+                        && carSpec.MinTotalWeight.Value <= x.CarSpec.TotalWeight.Value
+                        && x.CarSpec.TotalWeight.Value <= carSpec.MaxTotalWeight.Value);
+            }
+            else if (carSpec.MaxTotalWeight.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.TotalWeight.HasValue
+                        && x.CarSpec.TotalWeight.Value <= carSpec.MaxTotalWeight.Value);
+            }
+            else if (carSpec.MinTotalWeight.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.TotalWeight.HasValue
+                        && carSpec.MinTotalWeight.Value <= x.CarSpec.TotalWeight.Value);
+            }
+
+            if (carSpec.ProductionStartDate.HasValue && carSpec.ProductionEndDate.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.ProductionDate.HasValue
+                                && carSpec.ProductionStartDate.Value <= x.CarSpec.ProductionDate.Value
+                                && x.CarSpec.ProductionDate.Value <= carSpec.ProductionEndDate.Value);
+            }
+            else if (carSpec.ProductionStartDate.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.ProductionDate.HasValue
+                                && carSpec.ProductionStartDate.Value <= x.CarSpec.ProductionDate.Value);
+            }
+            else if (carSpec.ProductionEndDate.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.ProductionDate.HasValue
+                                && x.CarSpec.ProductionDate.Value <= carSpec.ProductionEndDate.Value);
+            }
+
+            if (carSpec.RegistrationStartDate.HasValue && carSpec.RegistrationEndDate.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.RegistrationDate.HasValue
+                                && carSpec.RegistrationStartDate.Value <= x.CarSpec.RegistrationDate.Value
+                                && x.CarSpec.RegistrationDate.Value <= carSpec.RegistrationEndDate.Value);
+            }
+            else if (carSpec.RegistrationStartDate.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.RegistrationDate.HasValue
+                                && carSpec.RegistrationStartDate.Value <= x.CarSpec.RegistrationDate.Value);
+            }
+            else if (carSpec.RegistrationEndDate.HasValue)
+            {
+                cars = cars.Where(x => x.CarSpec.RegistrationDate.HasValue
+                                && x.CarSpec.RegistrationDate.Value <= carSpec.RegistrationEndDate.Value);
+            }
+
+            return cars;
+        }
+
+        private IQueryable<Car> SearchCarsByBusiness(CarSearchDto.CarBusinessSearchDto carBusiness, IQueryable<Car> cars)
+        {
+            if (!String.IsNullOrEmpty(carBusiness.Location))
+            {
+                cars = cars.Where(x => x.CarBusiness.Location.Contains(carBusiness.Location));
+            }
+
+            if (carBusiness.UserId.HasValue)
+            {
+                cars = cars.Where(x => x.CarBusiness.UserId.HasValue
+                                    && x.CarBusiness.UserId.Value == carBusiness.UserId.Value);
+            }
+
+            if (carBusiness.CreateStartDate.HasValue && carBusiness.CreateEndDate.HasValue)
+            {
+                cars = cars.Where(x => carBusiness.CreateStartDate.Value <= x.CarBusiness.CreateDate
+                                    && x.CarBusiness.CreateDate <= carBusiness.CreateEndDate.Value);
+            }
+            else if (carBusiness.CreateStartDate.HasValue)
+            {
+                cars = cars.Where(x => carBusiness.CreateStartDate.Value <= x.CarBusiness.CreateDate);
+            }
+            else if (carBusiness.CreateEndDate.HasValue)
+            {
+                cars = cars.Where(x => x.CarBusiness.CreateDate <= carBusiness.CreateEndDate.Value);
+            }
+
+            if (carBusiness.UpdateStartDate.HasValue && carBusiness.UpdateEndDate.HasValue)
+            {
+                cars = cars.Where(x => x.CarBusiness.UpdateDate.HasValue
+                                    && carBusiness.UpdateStartDate.Value <= x.CarBusiness.UpdateDate.Value
+                                    && x.CarBusiness.UpdateDate.Value <= carBusiness.UpdateEndDate.Value);
+            }
+            else if (carBusiness.UpdateStartDate.HasValue)
+            {
+                cars = cars.Where(x => x.CarBusiness.UpdateDate.HasValue
+                                    && carBusiness.UpdateStartDate.Value <= x.CarBusiness.UpdateDate.Value);
+            }
+            else if (carBusiness.UpdateEndDate.HasValue)
+            {
+                cars = cars.Where(x => x.CarBusiness.UpdateDate.HasValue
+                                    && x.CarBusiness.UpdateDate.Value <= carBusiness.UpdateEndDate.Value);
+            }
+
+            return cars;
+        }
+
+        public async Task<CarRemoveInfoDto> RemoveCar(RemoveCarSettingsDto removeCarSettings)
         {
             var carRepository = DataContextManager.CreateRepository<ICarRepository>();
 
-            var car = await carRepository.GetCarById(id);
+            var car = await carRepository.GetCarById(removeCarSettings.CarId);
 
             if (car == null)
             {
                 throw new ObjectNotFoundException();
             }
 
-            var carWithSameManufacturer = await carRepository.GetCarByManufacturerId(car.ManufacturerId, id);
-            var carWithSameTyp = await carRepository.GetCarByTypId(car.TypId, id);
-            var carWithSameFuel = await carRepository.GetCarByFuelId(car.CarSpec.FuelId, id);
-            var carWithSameEngineOil = await carRepository.GetCarByEngineOilId(car.CarSpec.EngineOilId, id);
-            var carWithSameGearOil = await carRepository.GetCarByGearOilId(car.CarSpec.GearOilId, id);
+            var carWithSameManufacturer = await carRepository.GetCarByManufacturerId(car.ManufacturerId, removeCarSettings.CarId);
+            var carWithSameTyp = await carRepository.GetCarByTypId(car.TypId, removeCarSettings.CarId);
+            var carWithSameFuel = await carRepository.GetCarByFuelId(car.CarSpec.FuelId, removeCarSettings.CarId);
+            var carWithSameEngineOil = await carRepository.GetCarByEngineOilId(car.CarSpec.EngineOilId, removeCarSettings.CarId);
+            var carWithSameGearOil = await carRepository.GetCarByGearOilId(car.CarSpec.GearOilId, removeCarSettings.CarId);
             Car carWithSameUser = null;
 
             if (car.CarBusiness.UserId.HasValue)
             {
-                carWithSameUser = await carRepository.GetCarByUserId(car.CarBusiness.UserId.Value, id);
+                carWithSameUser = await carRepository.GetCarByUserId(car.CarBusiness.UserId.Value, removeCarSettings.CarId);
             }
 
-            if (!isCheck)
+            if (!removeCarSettings.IsCheck)
             {
-                carRepository.RemoveCar(car);
+                await carRepository.RemoveCar(car);
 
-                if (carWithSameManufacturer == null && manufacturerIsDelete && car.Manufacturer != null)
-                {
-                    var repository = DataContextManager.CreateRepository<ICommonRepository<Manufacturer>>();
-                    repository.Remove(car.Manufacturer);
-                }
-
-                if (carWithSameTyp == null && typIsDelete && car.Typ != null)
-                {
-                    var repository = DataContextManager.CreateRepository<ICommonRepository<Typ>>();
-                    repository.Remove(car.Typ);
-                }
-
-                if (carWithSameFuel == null && fuelIsDelete && car.CarSpec.Fuel != null)
-                {
-                    var repository = DataContextManager.CreateRepository<ICommonRepository<Fuel>>();
-                    repository.Remove(car.CarSpec.Fuel);
-                }
-
-                if (carWithSameGearOil == null && gearOilIsDelete && car.CarSpec.GearOil != null)
-                {
-                    var repository = DataContextManager.CreateRepository<ICommonRepository<GearOil>>();
-                    repository.Remove(car.CarSpec.GearOil);
-                }
-
-                if (carWithSameEngineOil == null && engineOilIsDelete && car.CarSpec.EngineOil != null)
-                {
-                    var repository = DataContextManager.CreateRepository<ICommonRepository<EngineOil>>();
-                    repository.Remove(car.CarSpec.EngineOil);
-                }
-
-                if (carWithSameUser == null && userIsDelete && car.CarBusiness.User != null)
-                {
-                    var repository = DataContextManager.CreateRepository<ICommonRepository<User>>();
-                    repository.Remove(car.CarBusiness.User);
-                }
-
-                await DataContextManager.SaveAsync();
+                await RemoveRelationEntities(removeCarSettings, carWithSameManufacturer, carWithSameTyp, 
+                    carWithSameFuel, carWithSameGearOil, carWithSameEngineOil, carWithSameUser, car);
             }
 
             return new CarRemoveInfoDto
@@ -349,6 +333,46 @@ namespace Fuhrpark.Services.Services
                 WithSameGearOil = carWithSameGearOil != null ? true : false,
                 WithSameUser = carWithSameUser != null ? true : false
             };
+        }
+
+        private async Task RemoveRelationEntities(RemoveCarSettingsDto removeCarSettings, Car carWithSameManufacturer, 
+            Car carWithSameTyp, Car carWithSameFuel, Car carWithSameGearOil, Car carWithSameEngineOil, Car carWithSameUser, Car currentCar)
+        {
+            if (carWithSameManufacturer == null && removeCarSettings.ManufacturerIsDelete && currentCar.Manufacturer != null)
+            {
+                var repository = DataContextManager.CreateRepository<ICommonRepository<Manufacturer>>();
+                await repository.Remove(currentCar.Manufacturer);
+            }
+
+            if (carWithSameTyp == null && removeCarSettings.TypIsDelete && currentCar.Typ != null)
+            {
+                var repository = DataContextManager.CreateRepository<ICommonRepository<Typ>>();
+                await repository.Remove(currentCar.Typ);
+            }
+
+            if (carWithSameFuel == null && removeCarSettings.FuelIsDelete && currentCar.CarSpec.Fuel != null)
+            {
+                var repository = DataContextManager.CreateRepository<ICommonRepository<Fuel>>();
+                await repository.Remove(currentCar.CarSpec.Fuel);
+            }
+
+            if (carWithSameGearOil == null && removeCarSettings.GearOilIsDelete && currentCar.CarSpec.GearOil != null)
+            {
+                var repository = DataContextManager.CreateRepository<ICommonRepository<GearOil>>();
+                await repository.Remove(currentCar.CarSpec.GearOil);
+            }
+
+            if (carWithSameEngineOil == null && removeCarSettings.EngineOilIsDelete && currentCar.CarSpec.EngineOil != null)
+            {
+                var repository = DataContextManager.CreateRepository<ICommonRepository<EngineOil>>();
+                await repository.Remove(currentCar.CarSpec.EngineOil);
+            }
+
+            if (carWithSameUser == null && removeCarSettings.UserIsDelete && currentCar.CarBusiness.User != null)
+            {
+                var repository = DataContextManager.CreateRepository<ICommonRepository<User>>();
+                await repository.Remove(currentCar.CarBusiness.User);
+            }
         }
 
         public async Task UpdateCar(CarDto carDto)
@@ -394,8 +418,7 @@ namespace Fuhrpark.Services.Services
             car.CarBusiness.User = null;
             car.CarBusiness.UserId = carDto.CarBusiness.UserId;
 
-            carRepository.UpdateCar(car);
-            await DataContextManager.SaveAsync();
+            await carRepository.UpdateCar(car);
         }
     }
 }

@@ -4,6 +4,7 @@ using Fuhrpark.Data.Contracts;
 using Fuhrpark.Data.Contracts.Repositories;
 using Fuhrpark.Models;
 using Fuhrpark.Services.Contracts.Dtos;
+using Fuhrpark.Services.Contracts.Exceptions;
 using Fuhrpark.Services.Contracts.Mappers;
 using Fuhrpark.Services.Contracts.Services;
 using System;
@@ -49,12 +50,12 @@ namespace Fuhrpark.Services.Services
 
             if (user == null)
             {
-                return null;
+                throw new ObjectNotFoundException();
             }
 
             if (!user.Password.Equals(GetMD5Hash(password), StringComparison.InvariantCulture))
             {
-                return null;
+                throw new UnauthorizedAccessException();
             }
 
             return MapperFactory.CreateMapper<IAppUserMapper>().MapToModel(user);
@@ -82,7 +83,6 @@ namespace Fuhrpark.Services.Services
             };
 
             await accountRepository.Add(user);
-            await DataContextManager.SaveAsync();
 
             return MapperFactory.CreateMapper<IAppUserMapper>().MapToModel(user);
         }
@@ -99,7 +99,7 @@ namespace Fuhrpark.Services.Services
 
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpires = DateTime.Now.AddHours(2);
-            await DataContextManager.SaveAsync();
+            await accountRepository.SaveRefreshToken(user);
         }
 
         private string GetMD5Hash(string password)

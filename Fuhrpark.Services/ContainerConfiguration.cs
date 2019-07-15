@@ -1,5 +1,6 @@
 ﻿using Fuhrpark.Models;
 using Fuhrpark.Services.Contracts.Dtos;
+using Fuhrpark.Services.Contracts.Dtos.Common;
 using Fuhrpark.Services.Contracts.Mappers;
 using Fuhrpark.Services.Contracts.Services;
 using Fuhrpark.Services.Mappers;
@@ -37,6 +38,8 @@ namespace Fuhrpark.Services
             container.RegisterType<ICommonMapper<EngineOil, EngineOilDto>, CommonMapper<EngineOil, EngineOilDto>>(new TLifetime());
             container.RegisterType<ICommonMapper<GearOil, GearOilDto>, CommonMapper<GearOil, GearOilDto>>(new TLifetime());
             container.RegisterType<ICommonMapper<User, UserDto>, CommonMapper<User, UserDto>>(new TLifetime());
+
+            container.RegisterType<ICommonAddMap<User, CommonAddDto>, CommonAddMap<User, CommonAddDto>>(new TLifetime());
         }
     }
 }

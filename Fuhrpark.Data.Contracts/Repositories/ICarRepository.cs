@@ -17,9 +17,9 @@ namespace Fuhrpark.Data.Contracts.Repositories
 
         Task AddCar(Car car);
 
-        void UpdateCar(Car car);
+        Task UpdateCar(Car car);
 
-        void RemoveCar(Car car);
+        Task RemoveCar(Car car);
 
         Task<Car> GetCarByManufacturerId(int manufacturerId, int carId);
 
