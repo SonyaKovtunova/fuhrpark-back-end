@@ -45,6 +45,11 @@ namespace Fuhrpark.Host.Controllers
         [Route("add")]
         public async Task<ActionResult> AddGearOil([FromBody]CommonAddDto gearOil)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _service.Add(gearOil);
@@ -61,6 +66,11 @@ namespace Fuhrpark.Host.Controllers
         [Route("update")]
         public async Task<ActionResult> UpdateGearOil([FromBody]CommonUpdateDto gearOil)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _service.Update(gearOil);
@@ -79,8 +89,8 @@ namespace Fuhrpark.Host.Controllers
         }
 
         [HttpPost]
-        [Route("remove")]
-        public async Task<ActionResult> RemoveGearOil([FromBody]int id)
+        [Route("remove/{id}")]
+        public async Task<ActionResult> RemoveGearOil(int id)
         {
             try
             {

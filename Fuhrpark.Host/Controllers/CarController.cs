@@ -34,7 +34,7 @@ namespace Fuhrpark.Host.Controllers
 
         [HttpPost]
         [Route("list")]
-        public async Task<ActionResult> GetCars([FromBody]CarSearchDto search)
+        public async Task<ActionResult> GetCars([FromBody]SearchFilterDto search)
         {
             var cars = await _carService.GetCars(search);
             return Ok(cars);
@@ -58,16 +58,26 @@ namespace Fuhrpark.Host.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<ActionResult> AddCar([FromBody]CarDto car)
+        public async Task<ActionResult> AddCar([FromBody]CarAddDto car)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             await _carService.AddCar(car);
             return Ok();
         }
 
         [HttpPost]
         [Route("update")]
-        public async Task<ActionResult> UpdateCar([FromBody]CarDto car)
+        public async Task<ActionResult> UpdateCar([FromBody]CarUpdateDto car)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _carService.UpdateCar(car);

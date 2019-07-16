@@ -8,11 +8,11 @@ namespace Fuhrpark.Services.Contracts.Services
 {
     public interface ICarService
     {
-        Task<IEnumerable<CarDto>> GetCars(CarSearchDto searchDto);
+        Task<IEnumerable<CarDto>> GetCars(SearchFilterDto searchDto);
 
-        Task AddCar(CarDto car);
+        Task AddCar(CarAddDto car);
 
-        Task UpdateCar(CarDto car);
+        Task UpdateCar(CarUpdateDto car);
 
         Task<CarRemoveInfoDto> RemoveCar(RemoveCarSettingsDto removeCarSettings);
 

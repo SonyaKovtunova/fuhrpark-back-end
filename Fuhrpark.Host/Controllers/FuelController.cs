@@ -45,6 +45,11 @@ namespace Fuhrpark.Host.Controllers
         [Route("add")]
         public async Task<ActionResult> AddFuel([FromBody]CommonAddDto fuel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _fuelService.Add(fuel);
@@ -61,6 +66,11 @@ namespace Fuhrpark.Host.Controllers
         [Route("update")]
         public async Task<ActionResult> UpdateFuel([FromBody]CommonUpdateDto fuel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _fuelService.Update(fuel);
@@ -80,8 +90,8 @@ namespace Fuhrpark.Host.Controllers
         }
 
         [HttpPost]
-        [Route("remove")]
-        public async Task<ActionResult> RemoveFuel([FromBody]int id)
+        [Route("remove/{id}")]
+        public async Task<ActionResult> RemoveFuel(int id)
         {
             try
             {

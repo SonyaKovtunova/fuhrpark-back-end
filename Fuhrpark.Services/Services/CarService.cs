@@ -23,12 +23,10 @@ namespace Fuhrpark.Services.Services
         {
         }
 
-        public async Task AddCar(CarDto carDto)
+        public async Task AddCar(CarAddDto carDto)
         {
             var carRepository = DataContextManager.CreateRepository<ICarRepository>();
-
-            var car = MapperFactory.CreateMapper<ICarMapper>().MapFromModel(carDto);
-
+            var car = MapperFactory.CreateMapper<ICarAddMapper>().MapFromModel(carDto);
             await carRepository.AddCar(car);
         }
 
@@ -46,7 +44,7 @@ namespace Fuhrpark.Services.Services
             return MapperFactory.CreateMapper<ICarMapper>().MapToModel(car);
         }
 
-        public async Task<IEnumerable<CarDto>> GetCars(CarSearchDto searchDto)
+        public async Task<IEnumerable<CarDto>> GetCars(SearchFilterDto searchDto)
         {
             var carRepository = DataContextManager.CreateRepository<ICarRepository>();
 
@@ -69,7 +67,7 @@ namespace Fuhrpark.Services.Services
             return MapperFactory.CreateMapper<ICarMapper>().MapCollectionToModel(foundCars);
         }
 
-        private IQueryable<Car> SearchCarsByGeneralSettings(CarSearchDto searchDto, IQueryable<Car> cars)
+        private IQueryable<Car> SearchCarsByGeneralSettings(SearchFilterDto searchDto, IQueryable<Car> cars)
         {
             if (!String.IsNullOrEmpty(searchDto.ChassisNumber))
             {
@@ -109,7 +107,7 @@ namespace Fuhrpark.Services.Services
             return cars;
         }
 
-        private IQueryable<Car> SearchCarsBySpec(CarSearchDto.CarSpecSearchDto carSpec, IQueryable<Car> cars)
+        private IQueryable<Car> SearchCarsBySpec(SearchFilterDto.CarSpecSearchDto carSpec, IQueryable<Car> cars)
         {
             if (carSpec.Catalyst.HasValue)
             {
@@ -246,7 +244,7 @@ namespace Fuhrpark.Services.Services
             return cars;
         }
 
-        private IQueryable<Car> SearchCarsByBusiness(CarSearchDto.CarBusinessSearchDto carBusiness, IQueryable<Car> cars)
+        private IQueryable<Car> SearchCarsByBusiness(SearchFilterDto.CarBusinessSearchDto carBusiness, IQueryable<Car> cars)
         {
             if (!String.IsNullOrEmpty(carBusiness.Location))
             {
@@ -375,7 +373,7 @@ namespace Fuhrpark.Services.Services
             }
         }
 
-        public async Task UpdateCar(CarDto carDto)
+        public async Task UpdateCar(CarUpdateDto carDto)
         {
             var carRepository = DataContextManager.CreateRepository<ICarRepository>();
 
@@ -386,9 +384,7 @@ namespace Fuhrpark.Services.Services
                 throw new ObjectNotFoundException();
             }
 
-            car.Typ = null;
             car.TypId = carDto.TypId;
-            car.Manufacturer = null;
             car.ManufacturerId = carDto.ManufacturerId;
             car.RegistrationNumber = carDto.RegistrationNumber;
             car.Model = carDto.Model;
@@ -399,11 +395,8 @@ namespace Fuhrpark.Services.Services
             car.CarSpec.Catalyst = carDto.CarSpec.Catalyst;
             car.CarSpec.EngineCode = carDto.CarSpec.EngineCode;
             car.CarSpec.EngineDisplacement = carDto.CarSpec.EngineDisplacement;
-            car.CarSpec.EngineOil = null;
             car.CarSpec.EngineOilId = car.CarSpec.EngineOilId;
-            car.CarSpec.Fuel = null;
             car.CarSpec.FuelId = carDto.CarSpec.FuelId;
-            car.CarSpec.GearOil = null;
             car.CarSpec.GearOilId = carDto.CarSpec.GearOilId;
             car.CarSpec.HybridDrive = carDto.CarSpec.HybridDrive;
             car.CarSpec.MaxSpeed = carDto.CarSpec.MaxSpeed;
@@ -412,10 +405,9 @@ namespace Fuhrpark.Services.Services
             car.CarSpec.RegistrationDate = carDto.CarSpec.RegistrationDate;
             car.CarSpec.TotalWeight = carDto.CarSpec.TotalWeight;
 
-            car.CarBusiness.CreateDate = carDto.CarBusiness.CreateDate;
             car.CarBusiness.Location = carDto.CarBusiness.Location;
+            car.CarBusiness.CreateDate = carDto.CarBusiness.CreateDate;
             car.CarBusiness.UpdateDate = carDto.CarBusiness.UpdateDate;
-            car.CarBusiness.User = null;
             car.CarBusiness.UserId = carDto.CarBusiness.UserId;
 
             await carRepository.UpdateCar(car);

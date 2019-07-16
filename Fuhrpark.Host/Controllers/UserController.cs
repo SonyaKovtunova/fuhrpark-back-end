@@ -45,6 +45,11 @@ namespace Fuhrpark.Host.Controllers
         [Route("add")]
         public async Task<ActionResult> AddUser([FromBody]CommonAddDto user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _service.Add(user);
@@ -61,6 +66,11 @@ namespace Fuhrpark.Host.Controllers
         [Route("update")]
         public async Task<ActionResult> UpdateUser([FromBody]CommonUpdateDto user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _service.Update(user);
@@ -79,8 +89,8 @@ namespace Fuhrpark.Host.Controllers
         }
 
         [HttpPost]
-        [Route("remove")]
-        public async Task<ActionResult> RemoveUser([FromBody]int id)
+        [Route("remove/{id}")]
+        public async Task<ActionResult> RemoveUser(int id)
         {
             try
             {

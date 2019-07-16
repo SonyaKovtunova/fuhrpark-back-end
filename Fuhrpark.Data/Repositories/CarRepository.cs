@@ -35,12 +35,18 @@ namespace Fuhrpark.Data.Repositories
         {
             switch (removalType)
             {
-                case RemovalType.Manufacturer: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.ManufacturerId == id);
-                case RemovalType.Typ: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.TypId == id);
-                case RemovalType.Fuel: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.FuelId == id);
-                case RemovalType.EngineOil: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.EngineOilId == id);
-                case RemovalType.GearOil: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.GearOilId == id);
-                case RemovalType.User: return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarBusiness.UserId.HasValue && x.CarBusiness.UserId.Value == id);
+                case RemovalType.Manufacturer:
+                    return await Context.Set<Car>().FirstOrDefaultAsync(x => x.ManufacturerId == id);
+                case RemovalType.Typ:
+                    return await Context.Set<Car>().FirstOrDefaultAsync(x => x.TypId == id);
+                case RemovalType.Fuel:
+                    return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.FuelId == id);
+                case RemovalType.EngineOil:
+                    return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.EngineOilId == id);
+                case RemovalType.GearOil:
+                    return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarSpec.GearOilId == id);
+                case RemovalType.User:
+                    return await Context.Set<Car>().FirstOrDefaultAsync(x => x.CarBusiness.UserId.HasValue && x.CarBusiness.UserId.Value == id);
             };
 
             return null;

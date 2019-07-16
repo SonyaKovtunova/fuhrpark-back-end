@@ -39,7 +39,14 @@ namespace Fuhrpark.Services
             container.RegisterType<ICommonMapper<GearOil, GearOilDto>, CommonMapper<GearOil, GearOilDto>>(new TLifetime());
             container.RegisterType<ICommonMapper<User, UserDto>, CommonMapper<User, UserDto>>(new TLifetime());
 
+            container.RegisterType<ICommonAddMap<Manufacturer, CommonAddDto>, CommonAddMap<Manufacturer, CommonAddDto>>(new TLifetime());
+            container.RegisterType<ICommonAddMap<Typ, CommonAddDto>, CommonAddMap<Typ, CommonAddDto>>(new TLifetime());
+            container.RegisterType<ICommonAddMap<Fuel, CommonAddDto>, CommonAddMap<Fuel, CommonAddDto>>(new TLifetime());
+            container.RegisterType<ICommonAddMap<EngineOil, CommonAddDto>, CommonAddMap<EngineOil, CommonAddDto>>(new TLifetime());
+            container.RegisterType<ICommonAddMap<GearOil, CommonAddDto>, CommonAddMap<GearOil, CommonAddDto>>(new TLifetime());
             container.RegisterType<ICommonAddMap<User, CommonAddDto>, CommonAddMap<User, CommonAddDto>>(new TLifetime());
+
+            container.RegisterType<ICarAddMapper, CarAddMapper>(new TLifetime());
         }
     }
 }

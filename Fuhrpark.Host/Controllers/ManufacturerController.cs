@@ -45,6 +45,11 @@ namespace Fuhrpark.Host.Controllers
         [Route("add")]
         public async Task<ActionResult> AddManufacturer([FromBody]CommonAddDto manufacturer)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _manufacturerService.Add(manufacturer);
@@ -61,6 +66,11 @@ namespace Fuhrpark.Host.Controllers
         [Route("update")]
         public async Task<ActionResult> UpdateManufacturer([FromBody]CommonUpdateDto manufacturer)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _manufacturerService.Update(manufacturer);
@@ -79,8 +89,8 @@ namespace Fuhrpark.Host.Controllers
         }
 
         [HttpPost]
-        [Route("remove")]
-        public async Task<ActionResult> RemoveManufacturer([FromBody]int id)
+        [Route("remove/{id}")]
+        public async Task<ActionResult> RemoveManufacturer(int id)
         {
             try
             {

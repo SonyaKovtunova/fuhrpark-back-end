@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Fuhrpark.Services.Contracts.Dtos
 {
-    public class CarSearchDto
+    public class SearchFilterDto
     {
         public string RegistrationNumber { get; set; }
 

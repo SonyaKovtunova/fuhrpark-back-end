@@ -45,6 +45,11 @@ namespace Fuhrpark.Host.Controllers
         [Route("add")]
         public async Task<ActionResult> AddTyp([FromBody]CommonAddDto typ)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _typService.Add(typ);
@@ -61,6 +66,11 @@ namespace Fuhrpark.Host.Controllers
         [Route("update")]
         public async Task<ActionResult> UpdateTyp([FromBody]CommonUpdateDto typ)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             try
             {
                 await _typService.Update(typ);
@@ -79,8 +89,8 @@ namespace Fuhrpark.Host.Controllers
         }
 
         [HttpPost]
-        [Route("remove")]
-        public async Task<ActionResult> RemoveTyp([FromBody]int id)
+        [Route("remove/{id}")]
+        public async Task<ActionResult> RemoveTyp(int id)
         {
             try
             {
