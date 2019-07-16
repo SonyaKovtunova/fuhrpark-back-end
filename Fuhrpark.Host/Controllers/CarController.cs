@@ -34,9 +34,9 @@ namespace Fuhrpark.Host.Controllers
 
         [HttpPost]
         [Route("list")]
-        public async Task<ActionResult> GetCars([FromBody]SearchFilterDto search)
+        public async Task<ActionResult> GetCars([FromBody]IEnumerable<SearchAttributeDto> searchAttributes)
         {
-            var cars = await _carService.GetCars(search);
+            var cars = await _carService.GetCars(searchAttributes);
             return Ok(cars);
         }
 

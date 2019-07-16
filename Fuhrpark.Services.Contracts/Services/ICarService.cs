@@ -8,7 +8,7 @@ namespace Fuhrpark.Services.Contracts.Services
 {
     public interface ICarService
     {
-        Task<IEnumerable<CarDto>> GetCars(SearchFilterDto searchDto);
+        Task<IEnumerable<CarDto>> GetCars(IEnumerable<SearchAttributeDto> searchAttributes);
 
         Task AddCar(CarAddDto car);
 
