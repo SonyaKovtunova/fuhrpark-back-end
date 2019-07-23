@@ -22,6 +22,8 @@ namespace Fuhrpark.Services
 
             container.RegisterType<IAccountService, AccountService>(new TLifetime());
             container.RegisterType<ICarService, CarService>(new TLifetime());
+            container.RegisterType<ICarSubgroupService, CarSubgroupService>(new TLifetime());
+            container.RegisterType<ICarGroupService, CarGroupService>(new TLifetime());
             container.RegisterType<ICommonService<ManufacturerDto>, CommonService<ManufacturerDto, Manufacturer>>(new TLifetime());
             container.RegisterType<ICommonService<TypDto>, CommonService<TypDto, Typ>>(new TLifetime());
             container.RegisterType<ICommonService<FuelDto>, CommonService<FuelDto, Fuel>>(new TLifetime());
@@ -32,6 +34,8 @@ namespace Fuhrpark.Services
 
             container.RegisterType<IAppUserMapper, AppUserMapper>(new TLifetime());
             container.RegisterType<ICarMapper, CarMapper>(new TLifetime());
+            container.RegisterType<ICarSubgroupMapper, CarSubgroupMapper>(new TLifetime());
+            container.RegisterType<ICarGroupMapper, CarGroupMapper>(new TLifetime());
             container.RegisterType<ICommonMapper<Manufacturer, ManufacturerDto>, CommonMapper<Manufacturer, ManufacturerDto>>(new TLifetime());
             container.RegisterType<ICommonMapper<Typ, TypDto>, CommonMapper<Typ, TypDto>>(new TLifetime());
             container.RegisterType<ICommonMapper<Fuel, FuelDto>, CommonMapper<Fuel, FuelDto>>(new TLifetime());

@@ -28,6 +28,9 @@ namespace Fuhrpark.Services.Services
         {
             var carRepository = DataContextManager.CreateRepository<ICarRepository>();
             var car = MapperFactory.CreateMapper<ICarAddMapper>().MapFromModel(carDto);
+
+            car.CarBusiness.CreateDate = DateTime.Now;
+
             await carRepository.AddCar(car);
         }
 
@@ -142,14 +145,14 @@ namespace Fuhrpark.Services.Services
             car.ManufacturerId = carDto.ManufacturerId;
             car.RegistrationNumber = carDto.RegistrationNumber;
             car.Model = carDto.Model;
-            car.Decommissioned = car.Decommissioned;
-            car.Color = car.Color;
-            car.ChassisNumber = car.ChassisNumber;
+            car.Decommissioned = carDto.Decommissioned;
+            car.Color = carDto.Color;
+            car.ChassisNumber = carDto.ChassisNumber;
 
             car.CarSpec.Catalyst = carDto.CarSpec.Catalyst;
             car.CarSpec.EngineCode = carDto.CarSpec.EngineCode;
             car.CarSpec.EngineDisplacement = carDto.CarSpec.EngineDisplacement;
-            car.CarSpec.EngineOilId = car.CarSpec.EngineOilId;
+            car.CarSpec.EngineOilId = carDto.CarSpec.EngineOilId;
             car.CarSpec.FuelId = carDto.CarSpec.FuelId;
             car.CarSpec.GearOilId = carDto.CarSpec.GearOilId;
             car.CarSpec.HybridDrive = carDto.CarSpec.HybridDrive;
@@ -160,8 +163,7 @@ namespace Fuhrpark.Services.Services
             car.CarSpec.TotalWeight = carDto.CarSpec.TotalWeight;
 
             car.CarBusiness.Location = carDto.CarBusiness.Location;
-            car.CarBusiness.CreateDate = carDto.CarBusiness.CreateDate;
-            car.CarBusiness.UpdateDate = carDto.CarBusiness.UpdateDate;
+            car.CarBusiness.UpdateDate = DateTime.Now;
             car.CarBusiness.UserId = carDto.CarBusiness.UserId;
 
             await carRepository.UpdateCar(car);

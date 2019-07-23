@@ -38,6 +38,10 @@ namespace Fuhrpark.Data
             modelBuilder.ApplyConfiguration(new TypMap());
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new AppUserMap());
+            modelBuilder.ApplyConfiguration(new CarInCarSubgroupMap());
+            modelBuilder.ApplyConfiguration(new CarSubgroupMap());
+            modelBuilder.ApplyConfiguration(new CarSubgroupInCarGroupMap());
+            modelBuilder.ApplyConfiguration(new CarGroupMap());
         }
     }
 }

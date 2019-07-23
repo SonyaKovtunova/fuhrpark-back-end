@@ -17,6 +17,8 @@ namespace Fuhrpark.Host.Infrastructure
 
             container.RegisterType<AccountController>();
             container.RegisterType<CarController>();
+            container.RegisterType<CarSubgroupController>();
+            container.RegisterType<CarGroupController>();
             container.RegisterType<ManufacturerController>();
             container.RegisterType<TypController>();
             container.RegisterType<FuelController>();

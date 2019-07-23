@@ -19,7 +19,7 @@ namespace Fuhrpark.Host.Controllers
     [Route("api/gear-oil")]
     [ApiController]
     [EnableCors("CorsPolicy")]
-    [Authorize(Policy = "Bearer")]
+    //[Authorize(Policy = "Bearer")]
     public class GearOilController : ControllerBase
     {
         private readonly ILog _log;

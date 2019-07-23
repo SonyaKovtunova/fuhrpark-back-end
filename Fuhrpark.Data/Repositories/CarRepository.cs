@@ -94,6 +94,13 @@ namespace Fuhrpark.Data.Repositories
                 .AsQueryable();
         }
 
+        public async Task<IEnumerable<Car>> GetCarsByIds(IEnumerable<int> carIds)
+        {
+            return await Context.Set<Car>()
+                .Where(x => carIds.Contains(x.Id))
+                .ToListAsync();
+        }
+
         public async Task RemoveCar(Car car)
         {
             Context.Set<Car>()

@@ -34,5 +34,7 @@ namespace Fuhrpark.Data.Contracts.Repositories
         Task<Car> GetCarByUserId(int userId, int carId);
 
         Task<Car> GetCarByEntityType(int id, RemovalType removalType);
+
+        Task<IEnumerable<Car>> GetCarsByIds(IEnumerable<int> carIds);
     }
 }

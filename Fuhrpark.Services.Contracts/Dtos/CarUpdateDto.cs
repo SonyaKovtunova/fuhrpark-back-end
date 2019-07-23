@@ -65,11 +65,6 @@ namespace Fuhrpark.Services.Contracts.Dtos
         {
             public string Location { get; set; }
 
-            [Required]
-            public DateTime CreateDate { get; set; }
-
-            public DateTime? UpdateDate { get; set; }
-
             public int? UserId { get; set; }
         }
     }

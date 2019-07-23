@@ -28,6 +28,8 @@ namespace Fuhrpark.Data
 
             container.RegisterType<IAccountRepository, AccountRepository>(new TLifetime());
             container.RegisterType<ICarRepository, CarRepository>(new TLifetime());
+            container.RegisterType<ICarSubgroupRepository, CarSubgroupRepository>(new TLifetime());
+            container.RegisterType<ICarGroupRepository, CarGroupRepository>(new TLifetime());
 
             container.RegisterType<ICommonRepository<Manufacturer>, CommonRepository<Manufacturer>>(new TLifetime());
             container.RegisterType<ICommonRepository<Typ>, CommonRepository<Typ>>(new TLifetime());
