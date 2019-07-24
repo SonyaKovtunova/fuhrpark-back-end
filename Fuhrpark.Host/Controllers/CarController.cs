@@ -18,7 +18,7 @@ namespace Fuhrpark.Host.Controllers
     [Route("api/car")]
     [ApiController]
     [EnableCors("CorsPolicy")]
-    //[Authorize(Policy = "Bearer")]
+    [Authorize(Policy = "Bearer")]
     public class CarController : ControllerBase
     {
         private readonly ILog _log;

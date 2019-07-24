@@ -19,7 +19,7 @@ namespace Fuhrpark.Host.Controllers
     [Route("api/manufacturer")]
     [ApiController]
     [EnableCors("CorsPolicy")]
-    //[Authorize(Policy = "Bearer")]
+    [Authorize(Policy = "Bearer")]
     public class ManufacturerController : ControllerBase
     {
         private readonly ILog _log;

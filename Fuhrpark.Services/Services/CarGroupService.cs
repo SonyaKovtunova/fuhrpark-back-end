@@ -39,7 +39,7 @@ namespace Fuhrpark.Services.Services
 
             var newCarGroup = new CarGroup
             {
-                Name = carGroup.Name,
+                Name = carGroupDto.Name,
                 CreateDate = DateTime.Now,
                 CarSubgroupInCarGroups = carSubgroups.Select(carSubgroup => new CarSubgroupInCarGroup
                 {

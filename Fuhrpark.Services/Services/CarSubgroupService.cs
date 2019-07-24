@@ -39,13 +39,13 @@ namespace Fuhrpark.Services.Services
 
             var newCarSubgroup = new CarSubgroup
             {
-                Name = carSubgroup.Name,
+                Name = carSubgroupDto.Name,
                 CreateDate = DateTime.Now,
                 CarInCarSubgroups = cars.Select(car => new CarInCarSubgroup
                 {
                     Car = car
                 })
-                .ToList()
+                            .ToList()
             };
 
             await carSubgroupRepository.Add(newCarSubgroup);
@@ -73,7 +73,7 @@ namespace Fuhrpark.Services.Services
 
             var carSubgroupWithSameName = await carSubgroupRepository.GetByName(carSubgroupDto.Name);
 
-            if (carSubgroupWithSameName != null)
+            if (carSubgroupWithSameName != null && carSubgroupWithSameName.Id != carSubgroupDto.Id)
             {
                 throw new UpdatingException();
             }
@@ -96,7 +96,7 @@ namespace Fuhrpark.Services.Services
 
             foreach (var carInCarSubgroup in carSubgroup.CarInCarSubgroups)
             {
-                if (cars.Any(x => x.Id == carInCarSubgroup.CarId))
+                if (!cars.Any(x => x.Id == carInCarSubgroup.CarId))
                 {
                     carIdsToDelete.Add(carInCarSubgroup.CarId);
                 }

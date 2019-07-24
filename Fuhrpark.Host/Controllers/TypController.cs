@@ -19,7 +19,7 @@ namespace Fuhrpark.Host.Controllers
     [Route("api/typ")]
     [ApiController]
     [EnableCors("CorsPolicy")]
-    //[Authorize(Policy = "Bearer")]
+    [Authorize(Policy = "Bearer")]
     public class TypController : ControllerBase
     {
         private readonly ILog _log;

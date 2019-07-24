@@ -19,7 +19,7 @@ namespace Fuhrpark.Host.Controllers
     [Route("api/fuel")]
     [ApiController]
     [EnableCors("CorsPolicy")]
-    //[Authorize(Policy = "Bearer")]
+    [Authorize(Policy = "Bearer")]
     public class FuelController : ControllerBase
     {
         private readonly ILog _log;
