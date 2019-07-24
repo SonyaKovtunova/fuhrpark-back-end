@@ -20,5 +20,7 @@ namespace Fuhrpark.Data.Contracts.Repositories
         Task<CarSubgroup> GetById(int id);
 
         Task<IEnumerable<CarSubgroup>> GetByIds(IEnumerable<int> ids);
+
+        Task<IEnumerable<CarSubgroup>> GetSubgroupsByCarId(int carId);
     }
 }

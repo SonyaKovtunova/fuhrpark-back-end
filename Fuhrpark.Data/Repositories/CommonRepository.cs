@@ -36,10 +36,15 @@ namespace Fuhrpark.Data.Repositories
             return await Context.Set<TEntity>().FirstOrDefaultAsync(x => x.Name.Equals(name) && x.Id != id);
         }
 
-        public async Task Remove(TEntity entity)
+        public async Task Remove(int entityId)
         {
-            Context.Set<TEntity>().Remove(entity);
-            await Context.SaveChangesAsync();
+            var entity = await Context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == entityId);
+
+            if (entity != null)
+            {
+                Context.Set<TEntity>().Remove(entity);
+                await Context.SaveChangesAsync();
+            }
         }
 
         public async Task Update(TEntity entity)

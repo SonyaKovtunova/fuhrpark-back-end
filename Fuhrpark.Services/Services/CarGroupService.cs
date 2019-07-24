@@ -94,7 +94,7 @@ namespace Fuhrpark.Services.Services
 
             foreach (var carSubgroupInCarGroup in carGroup.CarSubgroupInCarGroups)
             {
-                if (carSubgroups.Any(x => x.Id == carSubgroupInCarGroup.CarSubgroupId))
+                if (!carSubgroups.Any(x => x.Id == carSubgroupInCarGroup.CarSubgroupId))
                 {
                     carSubgroupIdsToDelete.Add(carSubgroupInCarGroup.CarSubgroupId);
                 }

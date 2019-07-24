@@ -59,6 +59,15 @@ namespace Fuhrpark.Services.Services
                 throw new ObjectNotFoundException();
             }
 
+            var carSubgroupRepository = DataContextManager.CreateRepository<ICarSubgroupRepository>();
+
+            var carSubgroups = await carSubgroupRepository.GetSubgroupsByCarId(removeCarSettings.CarId);
+
+            if (carSubgroups.Count() > 0)
+            {
+                throw new RemovingException();
+            }
+
             var carWithSameManufacturer = await carRepository.GetCarByManufacturerId(car.ManufacturerId, removeCarSettings.CarId);
             var carWithSameTyp = await carRepository.GetCarByTypId(car.TypId, removeCarSettings.CarId);
             var carWithSameFuel = await carRepository.GetCarByFuelId(car.CarSpec.FuelId, removeCarSettings.CarId);
@@ -73,60 +82,66 @@ namespace Fuhrpark.Services.Services
 
             if (!removeCarSettings.IsCheck)
             {
+                var manufacturerId = car.ManufacturerId;
+                var typId = car.TypId;
+                var fuelId = car.CarSpec.FuelId;
+                var engineOulId = car.CarSpec.EngineOilId;
+                var gearOilId = car.CarSpec.GearOilId;
+                var userId = car.CarBusiness.UserId;
+
                 await carRepository.RemoveCar(car);
 
-                await RemoveRelationEntities(removeCarSettings, carWithSameManufacturer, carWithSameTyp, 
-                    carWithSameFuel, carWithSameGearOil, carWithSameEngineOil, carWithSameUser, car);
+                await RemoveRelationEntities(removeCarSettings, manufacturerId, typId, fuelId, engineOulId, gearOilId, userId);
             }
 
             return new CarRemoveInfoDto
             {
-                WithSameManufacturer = carWithSameManufacturer != null ? true : false,
-                WithSameTyp = carWithSameTyp != null ? true : false,
-                WithSameFuel = carWithSameFuel != null ? true : false,
-                WithSameEngineOil = carWithSameEngineOil != null ? true : false,
-                WithSameGearOil = carWithSameGearOil != null ? true : false,
-                WithSameUser = carWithSameUser != null ? true : false
+                WithSameManufacturer = carWithSameManufacturer == null ? true : false,
+                WithSameTyp = carWithSameTyp == null ? true : false,
+                WithSameFuel = carWithSameFuel == null ? true : false,
+                WithSameEngineOil = carWithSameEngineOil == null ? true : false,
+                WithSameGearOil = carWithSameGearOil == null ? true : false,
+                WithSameUser = carWithSameUser == null && car.CarBusiness.User != null ? true : false
             };
         }
 
-        private async Task RemoveRelationEntities(RemoveCarSettingsDto removeCarSettings, Car carWithSameManufacturer, 
-            Car carWithSameTyp, Car carWithSameFuel, Car carWithSameGearOil, Car carWithSameEngineOil, Car carWithSameUser, Car currentCar)
+        private async Task RemoveRelationEntities(RemoveCarSettingsDto removeCarSettings, int manufacturerId,
+            int typId, int fuelId, int engineOulId, int gearOilId, int? userId)
         {
-            if (carWithSameManufacturer == null && removeCarSettings.ManufacturerIsDelete && currentCar.Manufacturer != null)
+            if (removeCarSettings.ManufacturerIsDelete)
             {
                 var repository = DataContextManager.CreateRepository<ICommonRepository<Manufacturer>>();
-                await repository.Remove(currentCar.Manufacturer);
+                await repository.Remove(manufacturerId);
             }
 
-            if (carWithSameTyp == null && removeCarSettings.TypIsDelete && currentCar.Typ != null)
+            if (removeCarSettings.TypIsDelete)
             {
                 var repository = DataContextManager.CreateRepository<ICommonRepository<Typ>>();
-                await repository.Remove(currentCar.Typ);
+                await repository.Remove(typId);
             }
 
-            if (carWithSameFuel == null && removeCarSettings.FuelIsDelete && currentCar.CarSpec.Fuel != null)
+            if (removeCarSettings.FuelIsDelete)
             {
                 var repository = DataContextManager.CreateRepository<ICommonRepository<Fuel>>();
-                await repository.Remove(currentCar.CarSpec.Fuel);
+                await repository.Remove(fuelId);
             }
 
-            if (carWithSameGearOil == null && removeCarSettings.GearOilIsDelete && currentCar.CarSpec.GearOil != null)
-            {
-                var repository = DataContextManager.CreateRepository<ICommonRepository<GearOil>>();
-                await repository.Remove(currentCar.CarSpec.GearOil);
-            }
-
-            if (carWithSameEngineOil == null && removeCarSettings.EngineOilIsDelete && currentCar.CarSpec.EngineOil != null)
+            if (removeCarSettings.EngineOilIsDelete)
             {
                 var repository = DataContextManager.CreateRepository<ICommonRepository<EngineOil>>();
-                await repository.Remove(currentCar.CarSpec.EngineOil);
+                await repository.Remove(engineOulId);
             }
 
-            if (carWithSameUser == null && removeCarSettings.UserIsDelete && currentCar.CarBusiness.User != null)
+            if (removeCarSettings.GearOilIsDelete)
+            {
+                var repository = DataContextManager.CreateRepository<ICommonRepository<GearOil>>();
+                await repository.Remove(gearOilId);
+            }
+
+            if (removeCarSettings.UserIsDelete && userId.HasValue)
             {
                 var repository = DataContextManager.CreateRepository<ICommonRepository<User>>();
-                await repository.Remove(currentCar.CarBusiness.User);
+                await repository.Remove(userId.Value);
             }
         }
 

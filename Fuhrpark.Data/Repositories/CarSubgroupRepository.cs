@@ -49,6 +49,13 @@ namespace Fuhrpark.Data.Repositories
                 .FirstOrDefaultAsync(x => x.Name.Equals(name) && x.Id != id);
         }
 
+        public async Task<IEnumerable<CarSubgroup>> GetSubgroupsByCarId(int carId)
+        {
+            return await Context.Set<CarSubgroup>()
+                .Where(x => x.CarInCarSubgroups.Select(s => s.CarId).Contains(carId))
+                .ToListAsync();
+        }
+
         public async Task Update(CarSubgroup carSubgroup)
         {
             Context.Entry<CarSubgroup>(carSubgroup).State = EntityState.Modified;

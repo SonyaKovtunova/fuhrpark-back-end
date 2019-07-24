@@ -70,7 +70,7 @@ namespace Fuhrpark.Services.Services
                 throw new RemovingException();
             }
 
-            await repository.Remove(entity);
+            await repository.Remove(entity.Id);
         }
 
         public async Task Update(CommonUpdateDto dto)

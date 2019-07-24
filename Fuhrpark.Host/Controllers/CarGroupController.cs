@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Fuhrpark.Enums;
 using Fuhrpark.Services.Contracts.Dtos;
 using Fuhrpark.Services.Contracts.Exceptions;
 using Fuhrpark.Services.Contracts.Services;
@@ -56,7 +57,7 @@ namespace Fuhrpark.Host.Controllers
             catch (AddingException aex)
             {
                 _log.Error(aex);
-                return StatusCode((int)HttpStatusCode.Forbidden, "Car group with same name exists.");
+                return StatusCode((int)HttpStatusCode.Forbidden, ErrorMessage.SAMENAME.ToString());
             }
         }
 
@@ -77,12 +78,12 @@ namespace Fuhrpark.Host.Controllers
             catch (ObjectNotFoundException onfex)
             {
                 _log.Error(onfex);
-                return StatusCode((int)HttpStatusCode.Forbidden, "This car group doesn't exist.");
+                return StatusCode((int)HttpStatusCode.Forbidden, ErrorMessage.NOTEXIST.ToString());
             }
             catch (UpdatingException uex)
             {
                 _log.Error(uex);
-                return StatusCode((int)HttpStatusCode.Forbidden, "Car group with same name exists.");
+                return StatusCode((int)HttpStatusCode.Forbidden, ErrorMessage.SAMENAME.ToString());
             }
         }
     }

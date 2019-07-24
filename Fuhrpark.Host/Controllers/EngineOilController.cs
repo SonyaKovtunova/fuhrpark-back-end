@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Fuhrpark.Enums;
 using Fuhrpark.Services.Contracts.Dtos;
 using Fuhrpark.Services.Contracts.Dtos.Common;
 using Fuhrpark.Services.Contracts.Exceptions;
@@ -58,7 +59,7 @@ namespace Fuhrpark.Host.Controllers
             catch (AddingException aex)
             {
                 _log.Error(aex);
-                return StatusCode((int)HttpStatusCode.Forbidden, "Engine oil with same name exists.");
+                return StatusCode((int)HttpStatusCode.Forbidden, ErrorMessage.SAMENAME.ToString());
             }
         }
 
@@ -79,12 +80,12 @@ namespace Fuhrpark.Host.Controllers
             catch (ObjectNotFoundException onfex)
             {
                 _log.Error(onfex);
-                return StatusCode((int)HttpStatusCode.Forbidden, "This engine oil doesn't exist.");
+                return StatusCode((int)HttpStatusCode.Forbidden, ErrorMessage.NOTEXIST.ToString());
             }
             catch (UpdatingException uex)
             {
                 _log.Error(uex);
-                return StatusCode((int)HttpStatusCode.Forbidden, "Engine oil with same name exists.");
+                return StatusCode((int)HttpStatusCode.Forbidden, ErrorMessage.SAMENAME.ToString());
             }
         }
 
@@ -100,12 +101,12 @@ namespace Fuhrpark.Host.Controllers
             catch (ObjectNotFoundException onfex)
             {
                 _log.Error(onfex);
-                return StatusCode((int)HttpStatusCode.Forbidden, "This engine oil doesn't exist.");
+                return StatusCode((int)HttpStatusCode.Forbidden, ErrorMessage.NOTEXIST.ToString());
             }
             catch (RemovingException rex)
             {
                 _log.Error(rex);
-                return StatusCode((int)HttpStatusCode.Forbidden, "This engine oil is used in the description of the other car.");
+                return StatusCode((int)HttpStatusCode.Forbidden, ErrorMessage.ISUSED.ToString());
             }
         }
     }
