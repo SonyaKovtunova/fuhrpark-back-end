@@ -15,7 +15,7 @@ namespace Fuhrpark.Data.Contracts.Repositories
 
         Task Update(CarGroup carGroup);
 
-        Task<CarGroup> GetByName(string name);
+        Task<CarGroup> GetByName(string name, int id = 0);
 
         Task<CarGroup> GetById(int id);
     }

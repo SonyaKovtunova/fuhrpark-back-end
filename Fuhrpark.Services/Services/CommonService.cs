@@ -84,7 +84,7 @@ namespace Fuhrpark.Services.Services
                 throw new ObjectNotFoundException();
             }
 
-            var existingEntity = await repository.GetByName(dto.Name);
+            var existingEntity = await repository.GetByName(dto.Name, dto.Id);
 
             if (existingEntity != null)
             {

@@ -33,9 +33,9 @@ namespace Fuhrpark.Data.Repositories
             return await Context.Set<CarGroup>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<CarGroup> GetByName(string name)
+        public async Task<CarGroup> GetByName(string name, int id = 0)
         {
-            return await Context.Set<CarGroup>().FirstOrDefaultAsync(x => x.Name.Equals(name));
+            return await Context.Set<CarGroup>().FirstOrDefaultAsync(x => x.Name.Equals(name) && x.Id != id);
         }
 
         public async Task Update(CarGroup carGroup)

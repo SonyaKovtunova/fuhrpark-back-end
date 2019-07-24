@@ -71,9 +71,9 @@ namespace Fuhrpark.Services.Services
                 throw new ObjectNotFoundException();
             }
 
-            var carSubgroupWithSameName = await carSubgroupRepository.GetByName(carSubgroupDto.Name);
+            var carSubgroupWithSameName = await carSubgroupRepository.GetByName(carSubgroupDto.Name, carSubgroupDto.Id);
 
-            if (carSubgroupWithSameName != null && carSubgroupWithSameName.Id != carSubgroupDto.Id)
+            if (carSubgroupWithSameName != null)
             {
                 throw new UpdatingException();
             }

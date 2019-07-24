@@ -43,10 +43,10 @@ namespace Fuhrpark.Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<CarSubgroup> GetByName(string name)
+        public async Task<CarSubgroup> GetByName(string name, int id = 0)
         {
             return await Context.Set<CarSubgroup>()
-                .FirstOrDefaultAsync(x => x.Name.Equals(name));
+                .FirstOrDefaultAsync(x => x.Name.Equals(name) && x.Id != id);
         }
 
         public async Task Update(CarSubgroup carSubgroup)

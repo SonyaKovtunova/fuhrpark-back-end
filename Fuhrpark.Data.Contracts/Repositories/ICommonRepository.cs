@@ -19,6 +19,6 @@ namespace Fuhrpark.Data.Contracts.Repositories
 
         Task Update(TEntity entity);
 
-        Task<TEntity> GetByName(string name);
+        Task<TEntity> GetByName(string name, int id = 0);
     }
 }
