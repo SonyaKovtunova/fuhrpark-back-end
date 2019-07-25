@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Fuhrpark.Enums;
 using Fuhrpark.Host.Infrastructure;
 using Fuhrpark.Host.Models;
 using Fuhrpark.Services.Contracts.Dtos;
@@ -78,7 +79,7 @@ namespace Fuhrpark.Host.Controllers
                 _log.Error(aex);
             }
 
-            return Unauthorized("Invalid email or password.");
+            return Unauthorized(ErrorMessage.INVALIDEMAILORPASSWORD.ToString());
         }
 
         [HttpPost]
@@ -93,7 +94,7 @@ namespace Fuhrpark.Host.Controllers
 
                 if (savedRefreshToken != model.RefreshToken)
                 {
-                    throw new ArgumentException("Invalid refresh token");
+                    throw new ArgumentException(ErrorMessage.INVALIDREFRESHTOKEN.ToString());
                 }
                     
                 var newJwtToken = GenerateToken(principal.Claims);
@@ -172,7 +173,7 @@ namespace Fuhrpark.Host.Controllers
                 _log.Error(uaex);
             }
 
-            return Unauthorized("Invalid email or password.");
+            return Unauthorized(ErrorMessage.INVALIDEMAILORPASSWORD.ToString());
         }
 
         [HttpGet]
@@ -216,7 +217,7 @@ namespace Fuhrpark.Host.Controllers
 
             if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
             {
-                throw new ArgumentException("Invalid token");
+                throw new ArgumentException(ErrorMessage.INVALIDTOKEN.ToString());
             }
                 
             return principal;

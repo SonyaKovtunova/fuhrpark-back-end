@@ -8,6 +8,9 @@ namespace Fuhrpark.Enums
     {
         NOTEXIST,
         SAMENAME,
-        ISUSED
+        ISUSED,
+        INVALIDEMAILORPASSWORD,
+        INVALIDREFRESHTOKEN,
+        INVALIDTOKEN
     }
 }

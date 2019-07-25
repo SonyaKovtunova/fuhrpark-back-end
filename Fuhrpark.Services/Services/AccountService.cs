@@ -2,6 +2,7 @@
 using Anthill.Common.Services;
 using Fuhrpark.Data.Contracts;
 using Fuhrpark.Data.Contracts.Repositories;
+using Fuhrpark.Enums;
 using Fuhrpark.Models;
 using Fuhrpark.Services.Contracts.Dtos;
 using Fuhrpark.Services.Contracts.Exceptions;
@@ -68,7 +69,7 @@ namespace Fuhrpark.Services.Services
 
             if (user != null)
             {
-                throw new ArgumentException("User with same email exists.");
+                throw new ArgumentException(ErrorMessage.SAMENAME.ToString());
             }
 
             user = new AppUser
@@ -94,7 +95,7 @@ namespace Fuhrpark.Services.Services
 
             if (user == null)
             {
-                throw new ArgumentException("User with this email doesn't exist.");
+                throw new ArgumentException(ErrorMessage.NOTEXIST.ToString());
             }
 
             user.RefreshToken = refreshToken;
