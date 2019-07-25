@@ -18,11 +18,15 @@ namespace Fuhrpark.Services.Mappers
             {
                 cfg.CreateMap<Typ, TypDto>();
                 cfg.CreateMap<Manufacturer, ManufacturerDto>();
+                cfg.CreateMap<User, UserDto>();
 
                 cfg.CreateMap<Car, CarSubgroupDto.CarInfo>()
                     .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                     .ForMember(x => x.RegistrationNumber, y => y.MapFrom(z => z.RegistrationNumber))
-                    .ForMember(x => x.Model, y => y.MapFrom(z => z.Model));
+                    .ForMember(x => x.Model, y => y.MapFrom(z => z.Model))
+                    .ForMember(x => x.Typ, y => y.MapFrom(z => z.Typ))
+                    .ForMember(x => x.Manufacturer, y => y.MapFrom(z => z.Manufacturer))
+                    .ForMember(x => x.User, y => y.MapFrom(z => z.CarBusiness.User));
 
                 cfg.CreateMap<CarSubgroup, CarSubgroupDto>()
                     .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))

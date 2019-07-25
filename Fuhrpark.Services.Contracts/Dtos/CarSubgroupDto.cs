@@ -23,6 +23,8 @@ namespace Fuhrpark.Services.Contracts.Dtos
             public TypDto Typ { get; set; }
 
             public ManufacturerDto Manufacturer { get; set; }
+
+            public UserDto User { get; set; }
         }
     }   
 }
