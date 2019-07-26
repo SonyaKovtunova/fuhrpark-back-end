@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Fuhrpark.Enums;
+using Fuhrpark.Host.Helpers;
 using Fuhrpark.Host.Infrastructure;
 using Fuhrpark.Host.Models;
 using Fuhrpark.Services.Contracts.Dtos;
@@ -29,12 +31,18 @@ namespace Fuhrpark.Host.Controllers
         private readonly ILog _log;
 
         private readonly IAccountService _accountService;
+        private readonly IEmailSender _emailSender;
 
-        public AccountController(ILog log, IAccountService accountService)
+        private readonly AppSettings _appSettings;
+
+        public AccountController(ILog log, IAccountService accountService, IEmailSender emailSender, AppSettings appSettings)
         {
             _log = log;
 
             _accountService = accountService;
+            _emailSender = emailSender;
+
+            _appSettings = appSettings;
         }
 
         [HttpPost]
@@ -176,6 +184,84 @@ namespace Fuhrpark.Host.Controllers
             return Unauthorized(ErrorMessage.INVALIDEMAILORPASSWORD.ToString());
         }
 
+        [HttpPost]
+        [Route("forgot-password")]
+        public async Task<ActionResult> ForgotPassord([FromBody]UserForgotPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var user = await _accountService.GetUserByEmail(model.Email);
+
+            if (user == null)
+            {
+                return Unauthorized(ErrorMessage.INVALIDEMAILORPASSWORD.ToString());
+            }
+
+            var token = GenerateForgotPassowrdCodeToken();
+
+            try
+            {
+                await _accountService.SaveForgotPasswordCodeToken(user.Email, token);
+
+                var resetPasswordLink = _appSettings.FrontEndUrl + String.Format(Constants.NotificationMessages.ResetPasswordUrl, token);
+                var userName = String.Format(Constants.NotificationMessages.UserName, user.FirstName, user.LastName);
+                var message = String.Format(Constants.NotificationMessages.ForgotPasswordMessage, userName, _appSettings.FrontEndUrl, resetPasswordLink);
+
+                await _emailSender.SendEmailAsync(new MailAddress(user.Email, userName), Constants.NotificationMessages.ForgotPasswordSubject, message);
+
+                var response = new
+                {
+                    forgot_password_token = token
+                };
+
+                return Ok(response);
+            }
+            catch(ArgumentException aex)
+            {
+                _log.Error(aex);
+                return Unauthorized(aex.Message);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [Route("reset-password")]
+        public async Task<ActionResult> ResetPassword([FromBody]UserResetPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var forgotPasswordCodeToken = await _accountService.GetForgotPasswordCodeToken(model.Email);
+
+                if (!model.Code.Equals(forgotPasswordCodeToken))
+                {
+                    return Unauthorized(ErrorMessage.INVALIDFORGOTPASSWORDTOKEN.ToString());
+                }
+
+                await _accountService.ResetPassword(model.Email, model.Password);
+
+                return Ok();
+
+            }
+            catch (ArgumentException aex)
+            {
+                _log.Error(aex);
+                return Unauthorized(aex.Message);
+            }
+            
+        }
+
         [HttpGet]
         [Route("user-info")]
         [Authorize(Policy = "Bearer")]
@@ -224,6 +310,17 @@ namespace Fuhrpark.Host.Controllers
         }
 
         private string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
+
+        private string GenerateForgotPassowrdCodeToken()
         {
             var randomNumber = new byte[32];
 

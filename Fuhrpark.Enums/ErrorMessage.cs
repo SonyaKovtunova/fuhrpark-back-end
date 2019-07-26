@@ -11,6 +11,8 @@ namespace Fuhrpark.Enums
         ISUSED,
         INVALIDEMAILORPASSWORD,
         INVALIDREFRESHTOKEN,
-        INVALIDTOKEN
+        INVALIDTOKEN,
+        SENDERROR,
+        INVALIDFORGOTPASSWORDTOKEN
     }
 }

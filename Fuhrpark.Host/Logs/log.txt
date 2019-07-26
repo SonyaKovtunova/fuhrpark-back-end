@@ -1,0 +1,199 @@
+16 Jul 2019 09:25:55 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 64
+   at Fuhrpark.Host.Controllers.EngineOilController.RemoveEngineOil(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\EngineOilController.cs:line 97
+16 Jul 2019 09:26:15 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.EngineOilController.RemoveEngineOil(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\EngineOilController.cs:line 97
+16 Jul 2019 09:29:02 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.UserController.RemoveUser(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\UserController.cs:line 97
+16 Jul 2019 09:29:45 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.ManufacturerController.RemoveManufacturer(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\ManufacturerController.cs:line 97
+18 Jul 2019 13:59:12 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.UserController.RemoveUser(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\UserController.cs:line 97
+18 Jul 2019 13:59:38 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.UserController.RemoveUser(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\UserController.cs:line 97
+18 Jul 2019 14:00:13 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.UserController.RemoveUser(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\UserController.cs:line 97
+18 Jul 2019 14:00:57 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.UserController.RemoveUser(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\UserController.cs:line 97
+18 Jul 2019 14:02:20 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.UserController.RemoveUser(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\UserController.cs:line 97
+18 Jul 2019 14:10:32 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.AddingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.AddingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Add(CommonAddDto dto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 38
+   at Fuhrpark.Host.Controllers.UserController.AddUser(CommonAddDto user) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\UserController.cs:line 55
+19 Jul 2019 15:28:31 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.AddingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.AddingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Add(CommonAddDto dto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 38
+   at Fuhrpark.Host.Controllers.TypController.AddTyp(CommonAddDto typ) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\TypController.cs:line 55
+19 Jul 2019 15:28:42 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.UpdatingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.UpdatingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Update(CommonUpdateDto dto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 94
+   at Fuhrpark.Host.Controllers.TypController.UpdateTyp(CommonUpdateDto typ) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\TypController.cs:line 76
+19 Jul 2019 15:28:48 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.TypController.RemoveTyp(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\TypController.cs:line 97
+19 Jul 2019 15:33:00 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.UserController.RemoveUser(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\UserController.cs:line 97
+19 Jul 2019 15:43:43 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.ManufacturerController.RemoveManufacturer(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\ManufacturerController.cs:line 97
+19 Jul 2019 15:43:52 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.AddingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.AddingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Add(CommonAddDto dto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 38
+   at Fuhrpark.Host.Controllers.ManufacturerController.AddManufacturer(CommonAddDto manufacturer) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\ManufacturerController.cs:line 55
+22 Jul 2019 13:46:40 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 56
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 253
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 50
+22 Jul 2019 13:46:41 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 56
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 253
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 50
+22 Jul 2019 13:47:28 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 56
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 253
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 50
+22 Jul 2019 14:39:36 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CarService.GetCarById(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 45
+   at Fuhrpark.Host.Controllers.CarController.GetCarDetails(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 49
+22 Jul 2019 14:40:22 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CarService.GetCarById(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 45
+   at Fuhrpark.Host.Controllers.CarController.GetCarDetails(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 49
+22 Jul 2019 14:41:30 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CarService.GetCarById(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 45
+   at Fuhrpark.Host.Controllers.CarController.GetCarDetails(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 49
+22 Jul 2019 14:41:59 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CarService.GetCarById(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 45
+   at Fuhrpark.Host.Controllers.CarController.GetCarDetails(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 49
+22 Jul 2019 14:44:26 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CarService.GetCarById(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 45
+   at Fuhrpark.Host.Controllers.CarController.GetCarDetails(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 49
+22 Jul 2019 14:44:36 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CarService.GetCarById(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 45
+   at Fuhrpark.Host.Controllers.CarController.GetCarDetails(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 49
+22 Jul 2019 14:44:44 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CarService.GetCarById(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 45
+   at Fuhrpark.Host.Controllers.CarController.GetCarDetails(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 49
+22 Jul 2019 14:44:48 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CarService.GetCarById(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 45
+   at Fuhrpark.Host.Controllers.CarController.GetCarDetails(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 49
+22 Jul 2019 14:44:53 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CarService.GetCarById(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 45
+   at Fuhrpark.Host.Controllers.CarController.GetCarDetails(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 49
+24 Jul 2019 12:21:24 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.AddingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.AddingException' was thrown.
+   at Fuhrpark.Services.Services.CarSubgroupService.Add(CarSubgroupAddDto carSubgroupDto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarSubgroupService.cs:line 37
+   at Fuhrpark.Host.Controllers.CarSubgroupController.AddCarSubgroup(CarSubgroupAddDto carSubgroup) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarSubgroupController.cs:line 53
+24 Jul 2019 12:21:32 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.AddingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.AddingException' was thrown.
+   at Fuhrpark.Services.Services.CarSubgroupService.Add(CarSubgroupAddDto carSubgroupDto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarSubgroupService.cs:line 37
+   at Fuhrpark.Host.Controllers.CarSubgroupController.AddCarSubgroup(CarSubgroupAddDto carSubgroup) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarSubgroupController.cs:line 53
+24 Jul 2019 13:43:17 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.UserController.RemoveUser(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\UserController.cs:line 97
+24 Jul 2019 13:44:16 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.GearOilController.RemoveGearOil(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\GearOilController.cs:line 97
+24 Jul 2019 13:44:20 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.GearOilController.RemoveGearOil(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\GearOilController.cs:line 97
+24 Jul 2019 14:13:05 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 56
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 253
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 50
+24 Jul 2019 14:45:00 (ERROR) Logger System.UnauthorizedAccessException: Attempted to perform an unauthorized operation.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 61
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 253
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 50
+24 Jul 2019 14:54:28 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 56
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 253
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 50
+24 Jul 2019 16:18:21 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.TypController.RemoveTyp(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\TypController.cs:line 98
+24 Jul 2019 16:18:39 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.TypController.RemoveTyp(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\TypController.cs:line 98
+24 Jul 2019 16:18:54 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CommonService`2.Remove(Int32 id, RemovalType removalType) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CommonService.cs:line 73
+   at Fuhrpark.Host.Controllers.TypController.RemoveTyp(Int32 id) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\TypController.cs:line 98
+24 Jul 2019 16:34:41 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.UpdatingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.UpdatingException' was thrown.
+   at Fuhrpark.Services.Services.CarSubgroupService.Update(CarSubgroupUpdateDto carSubgroupDto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarSubgroupService.cs:line 81
+   at Fuhrpark.Host.Controllers.CarSubgroupController.UpdateCarSubgroup(CarSubgroupUpdateDto carSubgroup) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarSubgroupController.cs:line 75
+24 Jul 2019 16:34:53 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.UpdatingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.UpdatingException' was thrown.
+   at Fuhrpark.Services.Services.CarSubgroupService.Update(CarSubgroupUpdateDto carSubgroupDto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarSubgroupService.cs:line 81
+   at Fuhrpark.Host.Controllers.CarSubgroupController.UpdateCarSubgroup(CarSubgroupUpdateDto carSubgroup) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarSubgroupController.cs:line 75
+24 Jul 2019 18:31:44 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CarService.RemoveCar(RemoveCarSettingsDto removeCarSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 71
+   at Fuhrpark.Host.Controllers.CarController.RemoveCar(RemoveCarSettingsDto removeSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 99
+24 Jul 2019 18:31:53 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CarService.RemoveCar(RemoveCarSettingsDto removeCarSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 71
+   at Fuhrpark.Host.Controllers.CarController.RemoveCar(RemoveCarSettingsDto removeSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 99
+24 Jul 2019 18:34:58 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CarService.RemoveCar(RemoveCarSettingsDto removeCarSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 71
+   at Fuhrpark.Host.Controllers.CarController.RemoveCar(RemoveCarSettingsDto removeSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 99
+24 Jul 2019 18:35:01 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CarService.RemoveCar(RemoveCarSettingsDto removeCarSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 71
+   at Fuhrpark.Host.Controllers.CarController.RemoveCar(RemoveCarSettingsDto removeSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 99
+24 Jul 2019 18:35:03 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CarService.RemoveCar(RemoveCarSettingsDto removeCarSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 71
+   at Fuhrpark.Host.Controllers.CarController.RemoveCar(RemoveCarSettingsDto removeSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 99
+24 Jul 2019 18:35:05 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CarService.RemoveCar(RemoveCarSettingsDto removeCarSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 71
+   at Fuhrpark.Host.Controllers.CarController.RemoveCar(RemoveCarSettingsDto removeSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 99
+24 Jul 2019 18:35:07 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CarService.RemoveCar(RemoveCarSettingsDto removeCarSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 71
+   at Fuhrpark.Host.Controllers.CarController.RemoveCar(RemoveCarSettingsDto removeSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 99
+24 Jul 2019 18:35:08 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.RemovingException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.RemovingException' was thrown.
+   at Fuhrpark.Services.Services.CarService.RemoveCar(RemoveCarSettingsDto removeCarSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 71
+   at Fuhrpark.Host.Controllers.CarController.RemoveCar(RemoveCarSettingsDto removeSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 99
+24 Jul 2019 18:51:00 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.CarService.RemoveCar(RemoveCarSettingsDto removeCarSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\CarService.cs:line 62
+   at Fuhrpark.Host.Controllers.CarController.RemoveCar(RemoveCarSettingsDto removeSettings) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\CarController.cs:line 99
+25 Jul 2019 11:11:56 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 56
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 253
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 50
+25 Jul 2019 11:26:24 (ERROR) Logger System.UnauthorizedAccessException: Attempted to perform an unauthorized operation.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 61
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 253
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 50
+25 Jul 2019 11:26:38 (ERROR) Logger System.UnauthorizedAccessException: Attempted to perform an unauthorized operation.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 61
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 253
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 50
+25 Jul 2019 13:05:39 (ERROR) Logger System.ArgumentException: SAMENAME
+   at Fuhrpark.Services.Services.AccountService.Register(AppUserDto userDto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 75
+   at Fuhrpark.Host.Controllers.AccountController.Register(UserRegisterModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 142
+25 Jul 2019 13:06:51 (ERROR) Logger System.ArgumentException: SAMENAME
+   at Fuhrpark.Services.Services.AccountService.Register(AppUserDto userDto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 75
+   at Fuhrpark.Host.Controllers.AccountController.Register(UserRegisterModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 142
+25 Jul 2019 13:28:15 (ERROR) Logger System.ArgumentException: SAMENAME
+   at Fuhrpark.Services.Services.AccountService.Register(AppUserDto userDto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 75
+   at Fuhrpark.Host.Controllers.AccountController.Register(UserRegisterModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 142
+25 Jul 2019 13:30:34 (ERROR) Logger System.ArgumentException: SAMENAME
+   at Fuhrpark.Services.Services.AccountService.Register(AppUserDto userDto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 75
+   at Fuhrpark.Host.Controllers.AccountController.Register(UserRegisterModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 142
+25 Jul 2019 13:31:06 (ERROR) Logger System.ArgumentException: SAMENAME
+   at Fuhrpark.Services.Services.AccountService.Register(AppUserDto userDto) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 75
+   at Fuhrpark.Host.Controllers.AccountController.Register(UserRegisterModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 142
+25 Jul 2019 13:31:15 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 57
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 254
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 51
+25 Jul 2019 13:31:29 (ERROR) Logger System.UnauthorizedAccessException: Attempted to perform an unauthorized operation.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 62
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 254
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 51
+26 Jul 2019 16:30:04 (ERROR) Logger Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException: Exception of type 'Fuhrpark.Services.Contracts.Exceptions.ObjectNotFoundException' was thrown.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 70
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 373
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 59
+26 Jul 2019 17:08:30 (ERROR) Logger System.UnauthorizedAccessException: Attempted to perform an unauthorized operation.
+   at Fuhrpark.Services.Services.AccountService.Login(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Services\Services\AccountService.cs:line 75
+   at Fuhrpark.Host.Controllers.AccountController.GetIdentity(String email, String password) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 352
+   at Fuhrpark.Host.Controllers.AccountController.Login(UserLoginModel model) in D:\works\Saphir Software\test\fuhrpark-back-end\Fuhrpark.Host\Controllers\AccountController.cs:line 59

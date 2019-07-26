@@ -24,6 +24,8 @@ namespace Fuhrpark.Models
 
         public DateTime? RefreshTokenExpires { get; set; }
 
+        public String ForgotPasswordCodeToken { get; set; }
+
         public Boolean IsActive { get; set; }
     }
 }

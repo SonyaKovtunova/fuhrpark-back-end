@@ -1,4 +1,5 @@
 ﻿using Fuhrpark.Host.Controllers;
+using Fuhrpark.Host.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace Fuhrpark.Host.Infrastructure
            where TLifetime : LifetimeManager, new()
         {
             Services.ContainerConfiguration.RegisterTypes<TLifetime>(container);
+
+            container.RegisterType<IEmailSender, EmailSender>();
 
             container.RegisterType<AccountController>();
             container.RegisterType<CarController>();

@@ -124,6 +124,9 @@ namespace Fuhrpark.Host
             var log = LogManager.GetLogger(Assembly.GetEntryAssembly(), "Logger");
             container.RegisterInstance(log);
 
+            var appSettings = _appConfiguration.GetSection("AppSettings");
+            container.RegisterInstance(appSettings.Get<AppSettings>());
+
             ContainerConfiguration.RegisterTypes<HierarchicalLifetimeManager>(container);
         }
     }

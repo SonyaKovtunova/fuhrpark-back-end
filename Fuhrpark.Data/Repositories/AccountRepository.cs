@@ -31,7 +31,7 @@ namespace Fuhrpark.Data.Repositories
             return await Context.Set<AppUser>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task SaveRefreshToken(AppUser user)
+        public async Task Update(AppUser user)
         {
             Context.Entry<AppUser>(user).State = EntityState.Modified;
             await Context.SaveChangesAsync();

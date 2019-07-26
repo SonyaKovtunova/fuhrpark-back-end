@@ -15,6 +15,6 @@ namespace Fuhrpark.Data.Contracts.Repositories
 
         Task Add(AppUser user);
 
-        Task SaveRefreshToken(AppUser user);
+        Task Update(AppUser user);
     }
 }

@@ -17,5 +17,11 @@ namespace Fuhrpark.Services.Contracts.Services
         Task<AppUserDto> Login(string email, string password);
 
         Task<AppUserDto> GetUserByEmail(string email);
+
+        Task SaveForgotPasswordCodeToken(String email, String forgotPasswordCodeToken);
+
+        Task<String> GetForgotPasswordCodeToken(String email);
+
+        Task ResetPassword(string email, string password);
     }
 }

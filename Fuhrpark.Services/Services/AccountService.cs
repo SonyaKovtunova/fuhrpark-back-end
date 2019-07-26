@@ -22,6 +22,19 @@ namespace Fuhrpark.Services.Services
         {
         }
 
+        public async Task<string> GetForgotPasswordCodeToken(string email)
+        {
+            var accountRepository = DataContextManager.CreateRepository<IAccountRepository>();
+            var user = await accountRepository.GetByEmail(email);
+
+            if (user == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return user.ForgotPasswordCodeToken;
+        }
+
         public async Task<string> GetRefreshToken(string email)
         {
             var accountRepository = DataContextManager.CreateRepository<IAccountRepository>();
@@ -88,6 +101,36 @@ namespace Fuhrpark.Services.Services
             return MapperFactory.CreateMapper<IAppUserMapper>().MapToModel(user);
         }
 
+        public async Task ResetPassword(string email, string password)
+        {
+            var accountRepository = DataContextManager.CreateRepository<IAccountRepository>();
+            var user = await accountRepository.GetByEmail(email);
+
+            if (user == null)
+            {
+                throw new ArgumentException(ErrorMessage.NOTEXIST.ToString());
+            }
+
+            user.Password = GetMD5Hash(password);
+            user.ForgotPasswordCodeToken = null;
+
+            await accountRepository.Update(user);
+        }
+
+        public async Task SaveForgotPasswordCodeToken(string email, string forgotPasswordCodeToken)
+        {
+            var accountRepository = DataContextManager.CreateRepository<IAccountRepository>();
+            var user = await accountRepository.GetByEmail(email);
+
+            if (user == null)
+            {
+                throw new ArgumentException(ErrorMessage.NOTEXIST.ToString());
+            }
+
+            user.ForgotPasswordCodeToken = forgotPasswordCodeToken;
+            await accountRepository.Update(user);
+        }
+
         public async Task SaveRefreshToken(string email, string refreshToken)
         {
             var accountRepository = DataContextManager.CreateRepository<IAccountRepository>();
@@ -100,7 +143,7 @@ namespace Fuhrpark.Services.Services
 
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpires = DateTime.Now.AddHours(2);
-            await accountRepository.SaveRefreshToken(user);
+            await accountRepository.Update(user);
         }
 
         private string GetMD5Hash(string password)
