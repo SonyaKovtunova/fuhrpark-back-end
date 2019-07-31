@@ -4,6 +4,7 @@ using Fuhrpark.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,7 +24,10 @@ namespace Fuhrpark.Data.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return await Context.Set<TEntity>().ToListAsync();
+            return await Context.Set<TEntity>()
+                .OrderByDescending(ord => ord.CreateDate)
+                .ThenByDescending(ord => ord.UpdateDate)
+                .ToListAsync();
         }
 
         public async Task<TEntity> GetById(int id)

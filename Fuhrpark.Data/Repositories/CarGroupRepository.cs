@@ -4,6 +4,7 @@ using Fuhrpark.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +26,10 @@ namespace Fuhrpark.Data.Repositories
 
         public async Task<IEnumerable<CarGroup>> GetAll()
         {
-            return await Context.Set<CarGroup>().ToListAsync();
+            return await Context.Set<CarGroup>()
+                .OrderByDescending(ord => ord.CreateDate)
+                .ThenByDescending(ord => ord.UpdateDate)
+                .ToListAsync();
         }
 
         public async Task<CarGroup> GetById(int id)

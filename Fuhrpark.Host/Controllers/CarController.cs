@@ -110,5 +110,13 @@ namespace Fuhrpark.Host.Controllers
                 return StatusCode((int)HttpStatusCode.Forbidden, ErrorMessage.ISUSED.ToString());
             }
         }
+
+        [HttpGet]
+        [Route("register-numbers")]
+        public async Task<ActionResult> GetRegistrationNumbers()
+        {
+            var carRegistrationNumbers = await _carService.GetCarRegistrationNumbers();
+            return Ok(carRegistrationNumbers);
+        }
     }
 }

@@ -27,6 +27,8 @@ namespace Fuhrpark.Data.Repositories
         public async Task<IEnumerable<CarSubgroup>> GetAll()
         {
             return await Context.Set<CarSubgroup>()
+                .OrderByDescending(ord => ord.CreateDate)
+                .ThenByDescending(ord => ord.UpdateDate)
                 .ToListAsync();
         }
 

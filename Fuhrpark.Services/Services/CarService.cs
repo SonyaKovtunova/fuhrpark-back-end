@@ -205,5 +205,12 @@ namespace Fuhrpark.Services.Services
 
             return MapperFactory.CreateMapper<ICarMapper>().MapCollectionToModel(cars);
         }
+
+        public async Task<IEnumerable<string>> GetCarRegistrationNumbers()
+        {
+            var carRepository = DataContextManager.CreateRepository<ICarRepository>();
+
+            return await carRepository.GetCarRegistrationNumbers();
+        }
     }
 }

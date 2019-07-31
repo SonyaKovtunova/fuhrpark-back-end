@@ -17,5 +17,7 @@ namespace Fuhrpark.Services.Contracts.Services
         Task<CarRemoveInfoDto> RemoveCar(RemoveCarSettingsDto removeCarSettings);
 
         Task<CarDto> GetCarById(int id);
+
+        Task<IEnumerable<string>> GetCarRegistrationNumbers();
     }
 }

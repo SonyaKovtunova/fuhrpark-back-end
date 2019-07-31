@@ -88,9 +88,19 @@ namespace Fuhrpark.Data.Repositories
                 .FirstOrDefaultAsync(x => x.CarBusiness.UserId == userId && x.Id != carId);
         }
 
+        public async Task<IEnumerable<string>> GetCarRegistrationNumbers()
+        {
+            return await Context.Set<Car>()
+                .Select(s => s.RegistrationNumber)
+                .OrderBy(ord => ord)
+                .ToListAsync();
+        }
+
         public IQueryable<Car> GetCars()
         {
             return Context.Set<Car>()
+                .OrderByDescending(ord => ord.CarBusiness.CreateDate)
+                .ThenByDescending(ord => ord.CarBusiness.UpdateDate)
                 .AsQueryable();
         }
 
